@@ -1,1 +1,251 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+  --yellow: #FBC000;
+  --red: #E64748;
+  --green: #00A296;
+  --white: #FFF;
+
+}
+
+body{
+  font-family: 'Roboto', sans-serif;
+  background: #202020;
+}
+
+a{
+  cursor: pointer;
+}
+
+h2{
+  margin: 40px 0 15px 0;
+}
+
+h2, h3{
+  color: var(--white);
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+}
+
+a{
+  color: white;
+}
+
+.yellow-text{
+  color: var(--yellow);
+}
+
+.red-text{
+  color: var(--red);
+}
+
+.green-text{
+  color: var(--green);
+}
+
+.item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--white);
+  width: 100%;
+}
+
+.dot{
+  border-bottom: dashed 1px var(--white);
+  width: 100%;
+  float: left;
+  position: relative;
+  display: block;
+  height: 25px;
+}
+
+.section-title{
+  margin: 20px 0 0 0;
+}
+
+.item h3{
+  margin: 10px 0 15px 0;
+  font-size: 16px;
+}
+
+.item .price{
+  margin-bottom: 0;
+}
+
+.carta img{
+  width: 100%;
+}
+
+.carta-mobile{
+  display: none;
+}
+
+.whatsapp{
+  position: fixed;
+  bottom: 35px;
+  right: 25%;
+}
+
+.whatsapp a{
+  text-decoration: none;
+  color: #3a9b4e;
+  background: white;
+  padding: 15px 20px 15px 10px;
+  border-radius: 8px;
+}
+
+.whatsapp a:hover{
+  text-decoration: underline;
+}
+
+.whatsapp a img{
+  width: 32px;
+  margin: 0 10px 0 0;
+  vertical-align: middle;
+}
+
+.last-section{
+  margin-bottom: 100px;
+}
+
+.container{
+  padding: 20px;
+}
+
+.container-page{
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-page-center{
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+input{
+  color: black;
+  height: 34px;
+  margin: 10px 0 20px 0;
+  font-size: 18px;
+  padding: 5px 5px 5px 15px;
+}
+
+.campo{
+  display: flex;
+  flex-direction: column;
+}
+
+.actions{
+  text-align: center;
+  button{
+    margin: 0 0 20px 0;
+  }
+}
+
+.btn-base{
+  padding: 5px 15px;
+  color: white;
+  width: 100%;
+  transition: linear 0.5s;
+  text-decoration: none;
+}
+
+.btn-edit{
+  background: transparent;
+  font-size: 14px;
+  &:hover{
+    background: #017069 ;
+  }
+  span{
+    vertical-align: middle;
+    font-size: 18px;
+  }
+  @media screen and (max-width: 576px){
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+}
+
+.btn-primary{
+  background: var(--green);
+  font-size: 18px;
+  border: none;
+  padding: 15px;
+  font-weight: 600;
+  &:hover{
+    background: #017069 ;
+  }
+  span{
+    vertical-align: middle;
+  }
+}
+
+.description{
+  margin: 0 0 10px 0;
+}
+
+.alert-base{
+  position: fixed;
+  padding: 15px;
+  border-radius: 8px;
+  top: 30px;
+  right: 20px;
+  span{
+    vertical-align: middle;
+  }
+}
+
+.alert-done{
+  background: #f7fffe;
+  color: black;
+  span{
+    color: var(--green);
+  }
+}
+
+.alert-error{
+  background: #fff8f7;
+  color: black;
+  span{
+    color: var(--red);
+  }
+}
+
+.nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .info-user{
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    p{
+      margin: 2px;
+    }
+    a{
+      text-decoration: underline;
+      color: var(--green);
+    }
+  }
+}
+
+@media screen and (max-width: 576px){
+  .carta-desktop{
+      display: none;
+  }
+  .carta-mobile{
+      display: block;
+  }
+
+  .carta img{
+      width: 100%;
+  }
+  .whatsapp{
+      bottom: 10px;
+  }
+}

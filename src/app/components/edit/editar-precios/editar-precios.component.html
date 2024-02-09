@@ -1,0 +1,38 @@
+<div class="container container-page">
+  <div class="nav">
+    <h1>Listado de productos</h1>
+    <div class="info-user">
+      <p>{{emailUser}}</p>
+      <a (click)="logout()">Cerrar sesión</a>
+    </div>
+  </div>
+  <div class="cont-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (producto of products; track producto; let i = $index) {
+          <tr>
+            <td>{{producto.id}}</td>
+            <td>{{producto.nombreProducto}}</td>
+            <td>{{producto.precio | currency:'$':'symbol':'1.0'}}</td>
+            <td>
+              <a
+                class="btn-base btn-edit"
+                [routerLink]="['/editarprecio',producto.id]">
+                <span class="material-symbols-outlined">edit</span>
+                Editar
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:carta-2.0": "node dist/carta-2.0/server/server.mjs"
+    "serve:ssr:carta-2.0": "node dist/carta-2.0/server/server.mjs",
+    "server": "json-server --watch db.json"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +23,8 @@
     "@angular/router": "^17.1.0",
     "@angular/ssr": "^17.1.1",
     "express": "^4.18.2",
+    "json-server": "^1.0.0-alpha.23",
+    "ngx-cookie-service": "^17.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

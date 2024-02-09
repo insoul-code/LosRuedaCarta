@@ -1,0 +1,32 @@
+<div class="container-page-center">
+  <div class="card">
+    <h1>Login</h1>
+    <h4>Administración precios</h4>
+    <div class="alert-base alert-error" role="alert" *ngIf="showAlert">
+      <span class="material-symbols-outlined">
+        gpp_maybe
+      </span>
+      {{errorMsg}}
+    </div>
+    <form  [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="campo">
+        <label for="">Correo electrónico</label>
+          <input
+            type="text"
+            id="email"
+            formControlName="email">
+      </div>
+      <div class="campo">
+        <label for="">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password">
+      </div>
+      <div class="actions">
+        <button class="btn-base btn-primary">Iniciar sesión</button>
+        <a routerLink="/register">¿Eres nuevo? Registrate aquí</a>
+      </div>
+    </form>
+  </div>
+</div>

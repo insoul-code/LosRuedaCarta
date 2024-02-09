@@ -1,0 +1,28 @@
+.cont-table{
+  width: 100%;
+  table{
+    border-collapse: collapse;
+    width: 100%;
+    tr{
+      th{
+        text-align: left;
+        &:nth-child(4){
+          text-align: center;
+        }
+      }
+      td{
+        padding: 15px;
+        border: 1px solid #495057;
+        &:nth-child(4){
+          text-align: center;
+        }
+        &:nth-child(3){
+          text-align: right;
+        }
+      }
+      &:nth-child(even) {
+        background-color: #2c3034;
+      }
+    }
+  }
+}

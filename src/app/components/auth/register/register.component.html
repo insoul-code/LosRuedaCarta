@@ -1,0 +1,33 @@
+<div class="container-page-center">
+  <div class="card">
+    <h1>Registro</h1>
+    <h4>Administración precios los Rueda</h4>
+    <form  [formGroup]="signupForm" (ngSubmit)="register()">
+      <div class="campo">
+        <label for="">Nombre completo</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name">
+      </div>
+      <div class="campo">
+        <label for="">Correo electrónico</label>
+          <input
+            type="text"
+            id="email"
+            formControlName="email">
+      </div>
+      <div class="campo">
+        <label for="">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password">
+      </div>
+      <div class="actions">
+        <button class="btn-base btn-primary">Registrarme</button>
+        <a routerLink="/login">¿Ya tienes cuenta? Ingresa aquí</a>
+      </div>
+    </form>
+  </div>
+</div>
