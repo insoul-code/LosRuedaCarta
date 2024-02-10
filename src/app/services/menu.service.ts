@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class MenuService {
 
-  API_URL='http://localhost:3000';
+  API_URL='https://apilosrueda.onrender.com';
 
   constructor(
     private http: HttpClient,

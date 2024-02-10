@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/carta2.0",
+    "public": "dist/carta-2.0/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

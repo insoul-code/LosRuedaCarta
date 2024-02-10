@@ -8,7 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class AuthService {
-  API_URL='http://localhost:3000/users';
+  API_URL='https://apilosrueda.onrender.com/users';
 
   constructor(
     private http: HttpClient,
