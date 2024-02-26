@@ -8,7 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class AuthService {
-  API_URL='https://apilosrueda.onrender.com/users';
+  API_URL='https://losruedacarta-default-rtdb.firebaseio.com/users.json';
 
   constructor(
     private http: HttpClient,
