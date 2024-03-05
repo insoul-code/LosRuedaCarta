@@ -9,7 +9,7 @@ export const loggedGuard: CanActivateFn = (route, state) => {
   if( !!cookieService.check('token')){
     return true;
   } else{
-    router.navigateByUrl('/login');
+    router.navigateByUrl('loginlosrueda');
     return false;
   }
 };

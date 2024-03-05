@@ -4,11 +4,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '../../services/menu.service';
 import { Menu } from '../../models/menu-model';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-carta',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule, CommonModule],
+  imports: [RouterOutlet, HttpClientModule, CommonModule, LoadingComponent],
   templateUrl: './carta.component.html',
   styleUrl: './carta.component.scss'
 })

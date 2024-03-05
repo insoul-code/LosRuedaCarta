@@ -1,28 +1,6 @@
-<!-- <div class="carta">
-  <img src="./../assets/images/logo.png" alt="">
-  <div class="container">
-      @for (items of menuItems; track items; let i = $index){
-        <h2 [ngClass]="{'yellow-text': i % 2 === 0, 'red-text': i % 2 !== 0, 'green-text': i % 3 === 0}">{{items.tituloProducto}}</h2>
-        @for (producto of items.productos; track producto){
-          <div class="item">
-            <h3  class="title dot">{{producto.nombreProducto}}</h3>
-            <h3  class="price">{{producto.precio | currency:'$':'symbol':'1.0'}}</h3>
-          </div>
-          @if (producto.descripcion !== ''){
-            <div class="description">
-              <span class="red-text">*</span> <span class="yellow-text"> {{producto.descripcion}}</span>
-            </div>
-          }
-        }
-      }
-  </div>
-</div> -->
 <div class="carta">
   <img src="./../assets/images/logo.png" alt="">
   <div class="container">
-      <!-- @for (items of menuCategories; track items; let i = $index){
-        <h2 [ngClass]="{'yellow-text': i % 2 === 0, 'red-text': i % 2 !== 0, 'green-text': i % 3 === 0}">{{items.title}}</h2>
-      } -->
         @for (producto of products; track producto){
           @switch (producto.categoryId) {
             @case (1) {
@@ -80,6 +58,8 @@
         }
   </div>
 </div>
-<div class="whatsapp">
-  <a href=" https://wa.me/573006179611" target="_blank"><img src="./../../../assets/images/ic-whatsapp.svg" alt="">¡Haz tu pedido ya!</a>
+<div class="flex">
+  <div class="whatsapp">
+    <a href=" https://wa.me/573006179611" target="_blank"><img src="./../../../assets/images/ic-whatsapp.svg" alt="">¡Haz tu pedido ya!</a>
+  </div>
 </div>

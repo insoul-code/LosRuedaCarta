@@ -34,7 +34,7 @@ export class RegisterComponent {
       this.authService.register(this.signupForm.value)
         .subscribe(()=>{
           this.signupForm.reset();
-          this.router.navigate(['/login']);
+          this.router.navigate(['/loginlosrueda']);
         });
     }else{
       this.signupForm.markAllAsTouched();

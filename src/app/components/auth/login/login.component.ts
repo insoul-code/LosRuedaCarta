@@ -4,6 +4,9 @@ import { AuthService } from '../../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireModule } from '@angular/fire/compat';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-
+  EMAIL_EXAMPLE=' mail@mail.com';
   public loginForm!: FormGroup;
   showAlert: boolean = false;
   errorMsg = '';
@@ -33,23 +36,42 @@ export class LoginComponent {
 
   login() {
     if(this.loginForm.valid){
-      const {email,password} = this.loginForm.value;
-      this.authService.login(email,password)
-        .subscribe(res=>{
-          if(res.length){
-            this.loginForm.reset();
-            this.cookieService.set('token','logueado');
-            this.cookieService.set('email',email);
-            this.router.navigate(['/precios']);
-          }else{
-            this.loginForm.reset();
-            this.showAlert = true;
-            this.errorMsg = 'Usuario no se encuentra registrado';
-            setTimeout(()=>{this.showAlert = false},3000);
-          }
+      const {email, password} = this.loginForm.value;
+      this.authService.login(email, password)
+      .subscribe((users)=>{
+        const matchingUserKeys = Object.entries(users).find(([key, user]) => {
+          return user.email === email && user.password === password;
+        });
+        if (matchingUserKeys) {
+          this.cookieService.set('token','logueado');
+          this.cookieService.set('email', email);
+          this.router.navigate(['/precios']);
+        }else{
+          this.loginForm.reset();
+          this.showAlert = true;
+          this.errorMsg = 'El correo ingresado no se encuentra registrado';
+          setTimeout(()=>{this.showAlert = false},3000);
+        }
         });
     }else{
       this.loginForm.markAllAsTouched();
     }
   }
+
+  get emailField() {
+    return this.loginForm.get('email');
+  }
+
+  get isEmailFieldInvalid() {
+    return this.emailField?.touched && this.emailField?.invalid;
+  }
+
+  get passwordField() {
+    return this.loginForm.get('password');
+  }
+
+  get isPasswordFieldInvalid() {
+    return this.passwordField?.touched && this.passwordField?.invalid;
+  }
+
 }

@@ -62,17 +62,20 @@ a{
   margin: 20px 0 0 0;
 }
 
-.item h3{
-  margin: 10px 0 15px 0;
-  font-size: 16px;
+.item{
+  h3{
+    margin: 10px 0 15px 0;
+    font-size: 16px;
+  }
+  .price{
+    margin-bottom: 0;
+  }
 }
 
-.item .price{
-  margin-bottom: 0;
-}
-
-.carta img{
-  width: 100%;
+.carta{
+  img{
+    width: 100%;
+  }
 }
 
 .carta-mobile{
@@ -81,26 +84,22 @@ a{
 
 .whatsapp{
   position: fixed;
-  bottom: 35px;
-  right: 25%;
-}
-
-.whatsapp a{
-  text-decoration: none;
-  color: #3a9b4e;
-  background: white;
-  padding: 15px 20px 15px 10px;
-  border-radius: 8px;
-}
-
-.whatsapp a:hover{
-  text-decoration: underline;
-}
-
-.whatsapp a img{
-  width: 32px;
-  margin: 0 10px 0 0;
-  vertical-align: middle;
+  bottom: 2%;
+  a{
+    text-decoration: none;
+    color: #3a9b4e;
+    background: white;
+    padding: 15px 20px 15px 10px;
+    border-radius: 8px;
+    &:hover{
+      text-decoration: underline;
+    }
+    img{
+      width: 32px;
+      margin: 0 10px 0 0;
+      vertical-align: middle;
+    }
+  }
 }
 
 .last-section{
@@ -108,7 +107,7 @@ a{
 }
 
 .container{
-  padding: 20px;
+  padding: 20px 20px 80px 20px;
 }
 
 .container-page{
@@ -122,12 +121,14 @@ a{
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
+  height: 100svh;
 }
 
 input{
   color: black;
   height: 34px;
-  margin: 10px 0 20px 0;
+  margin: 5px 0 5px 0;
   font-size: 18px;
   padding: 5px 5px 5px 15px;
 }
@@ -135,18 +136,21 @@ input{
 .campo{
   display: flex;
   flex-direction: column;
+  label{
+    margin: 20px 0 0 0;
+  }
 }
 
 .actions{
   text-align: center;
   button{
-    margin: 0 0 20px 0;
+    margin: 20px 0 20px 0;
   }
 }
 
 .btn-base{
   padding: 5px 15px;
-  color: white;
+  color: #2B2B52;
   width: 100%;
   transition: linear 0.5s;
   text-decoration: none;
@@ -154,9 +158,10 @@ input{
 
 .btn-edit{
   background: transparent;
+  color: white;
   font-size: 14px;
   &:hover{
-    background: #017069 ;
+    background: #8B78E6 ;
   }
   span{
     vertical-align: middle;
@@ -172,13 +177,13 @@ input{
 }
 
 .btn-primary{
-  background: var(--green);
+  background: #9c8af3;
   font-size: 18px;
   border: none;
   padding: 15px;
-  font-weight: 600;
+  font-weight: bold;
   &:hover{
-    background: #017069 ;
+    background: #a79cd9 ;
   }
   span{
     vertical-align: middle;
@@ -220,16 +225,30 @@ input{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media screen and (max-width: 576px){
+    flex-direction: column;
+  }
+  h1{
+    @media screen and (max-width: 576px){
+      order: 1;
+    }
+  }
   .info-user{
     display: flex;
     align-items: flex-end;
     flex-direction: column;
+    @media screen and (max-width: 576px){
+      justify-content: space-between;
+      flex-direction: row;
+      width: 100%;
+      order: 0;
+    }
     p{
       margin: 2px;
     }
     a{
       text-decoration: underline;
-      color: var(--green);
+      color: #9c8af3;
     }
   }
 }
@@ -244,8 +263,5 @@ input{
 
   .carta img{
       width: 100%;
-  }
-  .whatsapp{
-      bottom: 10px;
   }
 }

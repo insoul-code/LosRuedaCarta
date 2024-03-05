@@ -1,8 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+// import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Observable, from } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +16,28 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    // private auth: AngularFireAuth
   ) { }
 
   register(newuser: User){
     return this.http.post<User>(`${this.API_URL}`,newuser);
   }
 
-  login(email: string, password: string){
-    return this.http.get<any>(`${this.API_URL}`,{params:{email,password}});
+  login(email: string, password: string): Observable<User>{
+    const params = new HttpParams().set('email',email).set('password',password);
+    return this.http.get<User>(`${this.API_URL}`,{params});
   }
 
+  // loginFire(params: User): Observable<any>{
+  //   return from(this.auth.signInWithEmailAndPassword(
+  //     params.email,params.password
+  //   ));
+  // }
+
   logout(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['/loginlosrueda']);
     this.cookieService.delete('token');
+    this.cookieService.delete('email');
   }
 }

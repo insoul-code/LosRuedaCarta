@@ -26,11 +26,11 @@ export const routes: Routes = [
     component: EditPageComponent
 },
 {
-    path: 'login',
+    path: 'loginlosrueda',
     component: LoginComponent
 },
 {
-    path: 'register',
+    path: 'registerlosrueda',
     component: RegisterComponent
 }
 ];

@@ -1,0 +1,31 @@
+.card{
+  max-width: 400px;
+  width: 350px;
+  .title-login{
+    text-align: center;
+    h1{
+      font-size: 32px;
+      font-weight: normal;
+      margin-bottom: 5px;
+    }
+    p{
+      font-size: 14px;
+    }
+  }
+}
+
+form{
+  background: #181818;
+  padding: 20px 30px;
+  border-radius: 4px;
+}
+
+.mensaje-error, .icono-error, .required{
+  color: #ff0e0e;
+}
+
+input{
+  &.is-invalid{
+      border: 2px solid #ff0e0e;
+  }
+}

@@ -1,7 +1,9 @@
 <div class="container-page-center">
   <div class="card">
-    <h1>Login</h1>
-    <h4>Administración precios</h4>
+    <div class="title-login">
+      <h1>Inicio de sesión</h1>
+      <p>Administración de precios - Los Rueda</p>
+    </div>
     <div class="alert-base alert-error" role="alert" *ngIf="showAlert">
       <span class="material-symbols-outlined">
         gpp_maybe
@@ -10,22 +12,43 @@
     </div>
     <form  [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="campo">
-        <label for="">Correo electrónico</label>
+        <label for="">Correo electrónico <span class="required">*</span></label>
           <input
             type="text"
+            [class.is-invalid]="isEmailFieldInvalid"
             id="email"
             formControlName="email">
+            <div class="messages" [class.active]="isEmailFieldInvalid">
+              <small
+                  class="mensaje-error"
+                  *ngIf="emailField?.hasError('required') && emailField?.touched">
+                    * El correo electrónico es requerido
+              </small>
+              <small
+                  class="mensaje-error"
+                  *ngIf="emailField?.hasError('email')">
+                    * Este no es un correo valido, ejemplo: "{{EMAIL_EXAMPLE}}"
+              </small>
+          </div>
       </div>
       <div class="campo">
-        <label for="">Contraseña</label>
+        <label for="">Contraseña <span class="required">*</span></label>
           <input
             type="password"
+            [class.is-invalid]="isPasswordFieldInvalid"
             id="password"
             formControlName="password">
+            <div class="messages" [class.active]="isPasswordFieldInvalid">
+              <small
+                  class="mensaje-error"
+                  *ngIf="isPasswordFieldInvalid">
+                    * La contraseña es requerida
+              </small>
+          </div>
       </div>
       <div class="actions">
         <button class="btn-base btn-primary">Iniciar sesión</button>
-        <a routerLink="/register">¿Eres nuevo? Registrate aquí</a>
+        <!-- <a routerLink="/registerlosrueda">¿Eres nuevo? Registrate aquí</a> -->
       </div>
     </form>
   </div>
