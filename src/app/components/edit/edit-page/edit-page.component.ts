@@ -86,7 +86,6 @@ export class EditPageComponent {
       categoryId: this.formulario.controls['categoryId'].value,
     }
     this.menuService.updateProduct(prodcut);
-    this.router.navigate(['/precios']);
     this.alertService.showAlert("El producto se ha actualizado exitosamente", 3000);
   }
 
