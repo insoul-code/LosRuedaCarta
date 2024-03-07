@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -14,7 +14,7 @@ import { LoadingComponent } from '../loading/loading.component';
   styleUrl: './carta.component.scss'
 })
 export class CartaComponent {
-  menuItems: Menu[] = [{
+  menuItems = signal<Menu[]> ([{
     id: 0,
     tituloProducto: '',
     productos: [{
@@ -24,9 +24,10 @@ export class CartaComponent {
       descripcion: '',
       categoryId: 0
     }]
-  }];
+  }]);
   menuCategories: any[]=[];
   products: any[]=[];
+  price= signal(0);
 
   constructor(
     private menuService: MenuService,
@@ -51,6 +52,7 @@ export class CartaComponent {
     .subscribe({
       next: (products)=>{
         this.products = products;
+
       }
     })
   }
