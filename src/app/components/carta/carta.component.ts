@@ -4,30 +4,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '../../services/menu.service';
 import { Menu } from '../../models/menu-model';
-import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-carta',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule, CommonModule, LoadingComponent],
+  imports: [RouterOutlet, HttpClientModule, CommonModule],
   templateUrl: './carta.component.html',
   styleUrl: './carta.component.scss'
 })
 export class CartaComponent {
-  menuItems = signal<Menu[]> ([{
-    id: 0,
-    tituloProducto: '',
-    productos: [{
-      id: 0,
-      nombreProducto: '',
-      precio: 0,
-      descripcion: '',
-      categoryId: 0
-    }]
-  }]);
+
   menuCategories: any[]=[];
   products: any[]=[];
-  price= signal(0);
+  menuProducts: any[]=[];
+
+  getClass(index: number): string {
+    const classes = ['yellow-text', 'green-text', 'red-text'];
+    return classes[index % classes.length];
+  }
 
   constructor(
     private menuService: MenuService,
@@ -35,6 +29,11 @@ export class CartaComponent {
 
   ngOnInit(): void {
     this.getMenu();
+    this.getProducts();
+    this.getProductDbJson();
+  }
+
+  ngAfterViewInit(): void{
     this.getProducts();
   }
 
@@ -52,7 +51,15 @@ export class CartaComponent {
     .subscribe({
       next: (products)=>{
         this.products = products;
+      }
+    })
+  }
 
+  getProductDbJson(){
+    this.menuService.getMenuDbJson()
+    .subscribe({
+      next: (menuResponse)=>{
+        this.menuProducts = menuResponse;
       }
     })
   }

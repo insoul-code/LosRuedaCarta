@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MenuService } from '../../../services/menu.service';
-import { Menu } from '../../../models/menu-model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -19,6 +18,7 @@ export class EditarPreciosComponent {
   menuCategories: any[]=[];
   products: any[]=[];
   emailUser = '';
+  menuProducts: any[]=[];
 
   constructor(
     private menuService: MenuService,
@@ -26,17 +26,27 @@ export class EditarPreciosComponent {
     private cookieService: CookieService){
     }
 
-    ngOnInit(): void {
-      this.getProducts();
-      this.getCategories();
-      this.getEmailUser();
-    }
+  ngOnInit(): void {
+    this.getProducts();
+    this.getCategories();
+    this.getEmailUser();
+    this.getProductDbJson();
+  }
 
   getProducts(){
     this.menuService.getProducts()
     .subscribe({
       next: (products)=>{
         this.products = products;
+      }
+    })
+  }
+
+  getProductDbJson(){
+    this.menuService.getMenuDbJson()
+    .subscribe({
+      next: (menuResponse)=>{
+        this.menuProducts = menuResponse;
       }
     })
   }

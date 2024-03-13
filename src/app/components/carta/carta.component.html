@@ -57,6 +57,22 @@
           }
         }
   </div>
+  <!-- <div class="container">
+    @for (menuProductos of menuProducts; track menuProductos){
+      <h2 [ngClass]="getClass(menuProductos.id)">{{menuProductos.title}}</h2>
+      @for (producto of menuProductos.products; track producto){
+        <div class="item">
+          <h3  class="title dot">{{producto.nombreProducto}}</h3>
+          <h3  class="price">{{producto.precio | currency:'$':'symbol':'1.0'}}</h3>
+        </div>
+        @if (producto.descripcion !== '' && producto.descripcion !== null){
+          <div class="description">
+            <span class="red-text">*</span> <span class="yellow-text"> {{producto.descripcion}}</span>
+          </div>
+        }
+      }
+    }
+  </div> -->
 </div>
 <div class="flex">
   <div class="whatsapp">

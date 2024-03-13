@@ -4,9 +4,6 @@ import { AuthService } from '../../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
-import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFireModule } from '@angular/fire/compat';
-import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-login',
@@ -36,11 +33,12 @@ export class LoginComponent {
 
   login() {
     if(this.loginForm.valid){
-      const {email, password} = this.loginForm.value;
+      const email = this.loginForm.get('email')?.value.toLowerCase();
+      const password = this.loginForm.get('password')?.value;
       this.authService.login(email, password)
       .subscribe((users)=>{
         const matchingUserKeys = Object.entries(users).find(([key, user]) => {
-          return user.email === email && user.password === password;
+          return user.email.toLowerCase() === email && user.password === password;
         });
         if (matchingUserKeys) {
           this.cookieService.set('token','logueado');

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Menu } from '../models/menu-model';
 import { Producto } from '../models/producto';
 import { Router } from '@angular/router';
+import { Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,9 @@ import { Router } from '@angular/router';
 export class MenuService {
 
   API_URL='https://losruedacarta-default-rtdb.firebaseio.com';
+  DBJSON='http://localhost:3000/menuProducts/';
+
+  private datosSubject = new Subject<any>();
 
   constructor(
     private http: HttpClient,
@@ -23,6 +27,16 @@ export class MenuService {
     return this.http.get<any[]>(`${this.API_URL}/products.json`);
   }
 
+  getProductsSubject(){
+    return this.http.get<any[]>(`${this.API_URL}/products.json`).subscribe((nuevosDatos) => {
+      this.datosSubject.next(nuevosDatos);
+    });
+  }
+
+  obtenerDatosObservable() {
+    return this.datosSubject.asObservable();
+  }
+
   getProductById(id:number){
     return this.http.get(`${this.API_URL}/products/${id}.json`);
   }
@@ -32,7 +46,6 @@ export class MenuService {
       await fetch(`${this.API_URL}/products/${product.id}.json`,
                   {method:'PUT', body: JSON.stringify(product), headers: {'Content-type': 'application/json'}}
       )
-      // this.router.navigate(['/precios'])
     } catch(error){
       console.log(error)
     }
@@ -40,5 +53,13 @@ export class MenuService {
 
   updateOneProduct(product:Producto) {
     return this.http.put(`${this.API_URL}/products/${product.id}.json`,JSON.stringify(product));
+  }
+
+  getMenuDbJson(){
+    return this.http.get<any>('http://localhost:3000/menuProducts');
+  }
+
+  getProductByIdDbJson(id:number){
+    return this.http.get(`${this.DBJSON}${id}`);
   }
 }

@@ -12,6 +12,7 @@ import { Observable, from } from 'rxjs';
 })
 export class AuthService {
   API_URL='https://losruedacarta-default-rtdb.firebaseio.com/users.json';
+  DBJSON='http://localhost:3000/users';
 
   constructor(
     private http: HttpClient,
@@ -29,11 +30,10 @@ export class AuthService {
     return this.http.get<User>(`${this.API_URL}`,{params});
   }
 
-  // loginFire(params: User): Observable<any>{
-  //   return from(this.auth.signInWithEmailAndPassword(
-  //     params.email,params.password
-  //   ));
-  // }
+  loginDbJson(email: string, password: string): Observable<User>{
+    const params = new HttpParams().set('email',email).set('password',password);
+    return this.http.get<User>(`${this.DBJSON}`,{params});
+  }
 
   logout(){
     this.router.navigate(['/loginlosrueda']);
