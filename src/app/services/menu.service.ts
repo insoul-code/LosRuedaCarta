@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Menu } from '../models/menu-model';
-import { Producto } from '../models/producto';
+import { Menu } from '@models/menu-model';
+import { Producto } from '@models/producto';
 import { Router } from '@angular/router';
 import { Subject, tap } from 'rxjs';
 

@@ -2,8 +2,8 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { MenuService } from '../../services/menu.service';
-import { Menu } from '../../models/menu-model';
+import { MenuService } from '@services/menu.service';
+import { Menu } from '@models/menu-model';
 
 @Component({
   selector: 'app-carta',

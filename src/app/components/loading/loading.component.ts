@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
-import { LoadingService } from '../../services/loading.service';
+import { LoadingService } from '@services/loading.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

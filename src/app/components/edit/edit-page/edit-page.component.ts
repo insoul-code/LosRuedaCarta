@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MenuService } from '../../../services/menu.service';
+import { MenuService } from '@services/menu.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { Producto } from '../../../models/producto';
-import { AlertService } from '../../../services/alert.service';
-import { AuthService } from '../../../services/auth.service';
+import { Producto } from '@models/producto';
+import { AlertService } from '@services/alert.service';
+import { AuthService } from '@services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({

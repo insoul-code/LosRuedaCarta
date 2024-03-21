@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/user';
+import { User } from '@models/user';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 // import { AngularFireAuth } from '@angular/fire/compat/auth';

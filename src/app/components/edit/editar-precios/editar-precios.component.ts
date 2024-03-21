@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { MenuService } from '../../../services/menu.service';
+import { MenuService } from '@services/menu.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '@services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
