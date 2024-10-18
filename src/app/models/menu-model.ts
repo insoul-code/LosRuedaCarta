@@ -2,6 +2,6 @@ import { Producto } from "./producto";
 
 export interface Menu{
   id: number;
-  tituloProducto: string;
+  title: string;
   productos: Producto[];
 }

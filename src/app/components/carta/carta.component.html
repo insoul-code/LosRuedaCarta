@@ -1,6 +1,6 @@
 <div class="carta">
   <img src="./../assets/images/logo.png" alt="">
-  <div class="container">
+  <!-- <div class="container">
         @for (producto of products; track producto){
           @switch (producto.categoryId) {
             @case (1) {
@@ -56,7 +56,28 @@
             </div>
           }
         }
+  </div> -->
+
+  <div class="container">
+    <ng-container *ngFor="let group of groupedProducts; let i = index">
+      <h2 [ngClass]="getClass(i)">
+        {{ group.title }}
+      </h2>
+
+      <ng-container *ngFor="let producto of group.products">
+        <div class="item">
+          <h3 class="title dot">{{producto.nombreProducto}}</h3>
+          <h3 class="price">{{producto.precio | currency:'$':'symbol':'1.0'}}</h3>
+        </div>
+
+        <div *ngIf="producto.descripcion" class="description">
+          <span class="red-text">*</span>
+          <span class="yellow-text">{{ producto.descripcion }}</span>
+        </div>
+      </ng-container>
+    </ng-container>
   </div>
+
   <!-- <div class="container">
     @for (menuProductos of menuProducts; track menuProductos){
       <h2 [ngClass]="getClass(menuProductos.id)">{{menuProductos.title}}</h2>

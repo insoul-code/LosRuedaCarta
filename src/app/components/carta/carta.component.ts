@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '@services/menu.service';
 import { Menu } from '@models/menu-model';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-carta',
@@ -17,6 +18,8 @@ export class CartaComponent {
   menuCategories: any[]=[];
   products: any[]=[];
   menuProducts: any[]=[];
+  categories: any[] = [];
+  groupedProducts: { title: string, products: any[] }[] = [];
 
   getClass(index: number): string {
     const classes = ['yellow-text', 'green-text', 'red-text'];
@@ -30,11 +33,35 @@ export class CartaComponent {
   ngOnInit(): void {
     this.getMenu();
     this.getProducts();
-    this.getProductDbJson();
+    forkJoin({
+      categories: this.menuService.consultMenu(),
+      products: this.menuService.getProducts()
+    }).subscribe(({ categories, products }) => {
+      this.categories = categories.map(category => ({
+        id: category.id,
+        title: category.title,
+        productos: []
+      }));
+      console.log('Categorias', categories);
+
+      this.products = products;
+      this.groupProductsByCategory();
+      console.log('Grouped Products:', this.groupedProducts);
+    });
   }
 
   ngAfterViewInit(): void{
     this.getProducts();
+  }
+
+  groupProductsByCategory() {
+    this.groupedProducts = this.categories.map(category => {
+      const productsInCategory = this.products.filter(product => product.categoryId == category.id);
+      return {
+        title: category.title,
+        products: productsInCategory
+      };
+    });
   }
 
   getMenu(){
@@ -51,15 +78,6 @@ export class CartaComponent {
     .subscribe({
       next: (products)=>{
         this.products = products;
-      }
-    })
-  }
-
-  getProductDbJson(){
-    this.menuService.getMenuDbJson()
-    .subscribe({
-      next: (menuResponse)=>{
-        this.menuProducts = menuResponse;
       }
     })
   }
