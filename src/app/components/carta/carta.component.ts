@@ -42,11 +42,9 @@ export class CartaComponent {
         title: category.title,
         productos: []
       }));
-      console.log('Categorias', categories);
 
       this.products = products;
       this.groupProductsByCategory();
-      console.log('Grouped Products:', this.groupedProducts);
     });
   }
 

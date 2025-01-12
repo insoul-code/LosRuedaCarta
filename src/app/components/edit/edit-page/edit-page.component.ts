@@ -78,35 +78,6 @@ export class EditPageComponent {
     });
   }
 
-  // getOneProductDbJson(){
-  //   this.route.params.pipe(
-  //     switchMap(param => {
-  //       const id = +param.id;
-  //       return this.menuService.getProductByIdDbJson(id);
-  //     })
-  //   ).subscribe({
-  //     next: (data: any) =>{
-  //       console.log(data.id);
-  //       this.productByIdDbJson = data.products;
-  //       console.log(this.productByIdDbJson);
-  //       const products = this.productByIdDbJson;
-  //       products.forEach(producto => {
-  //         console.log("ID del producto:", producto.id);
-  //         console.log("Nombre del producto:", producto.nombreProducto);
-  //         console.log("Precio:", producto.precio);
-  //         console.log("Descripción:", producto.descripcion);
-  //         this.formulario = this.formBuilder.group({
-  //           id: producto?.id,
-  //           nombreProducto: producto?.nombreProducto,
-  //           precio: producto?.precio,
-  //           descripcion: producto?.descripcion,
-  //           categoryId: producto?.categoryId,
-  //         })
-  //       });
-  //     }
-  //   });
-  // }
-
   updateProduct(){
     if(this.formulario.invalid) return;
 

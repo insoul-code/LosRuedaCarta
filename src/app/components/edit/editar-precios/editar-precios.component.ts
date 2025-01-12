@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { MenuService } from '@services/menu.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
+import { CognitoService } from '@services/cognito.service';
 
 @Component({
   selector: 'app-editar-precios',
@@ -23,14 +24,15 @@ export class EditarPreciosComponent {
   constructor(
     private menuService: MenuService,
     private authService: AuthService,
-    private cookieService: CookieService){
+    private cookieService: CookieService,
+    private cognitoService: CognitoService,
+    private router: Router){
     }
 
   ngOnInit(): void {
     this.getProducts();
     this.getCategories();
     this.getEmailUser();
-    this.getProductDbJson();
   }
 
   getProducts(){
@@ -38,15 +40,6 @@ export class EditarPreciosComponent {
     .subscribe({
       next: (products)=>{
         this.products = products;
-      }
-    })
-  }
-
-  getProductDbJson(){
-    this.menuService.getMenuDbJson()
-    .subscribe({
-      next: (menuResponse)=>{
-        this.menuProducts = menuResponse;
       }
     })
   }
@@ -61,7 +54,14 @@ export class EditarPreciosComponent {
   }
 
   logout(){
-    this.authService.logout();
+    this.cognitoService.signOut()
+    .then(__=>{
+      this.router.navigate(['/loginlosrueda']);
+      this.cookieService.delete('accessToken');
+      this.cookieService.delete('refreshToken');
+      this.cookieService.delete('token');
+      this.cookieService.delete('email');
+    })
   }
 
   getEmailUser(){

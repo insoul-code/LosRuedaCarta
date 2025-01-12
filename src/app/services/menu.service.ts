@@ -11,7 +11,6 @@ import { Subject, tap } from 'rxjs';
 export class MenuService {
 
   API_URL='https://losruedacarta-default-rtdb.firebaseio.com';
-  DBJSON='http://localhost:3000/menuProducts/';
 
   private datosSubject = new Subject<any>();
 
@@ -55,11 +54,4 @@ export class MenuService {
     return this.http.put(`${this.API_URL}/products/${product.id}.json`,JSON.stringify(product));
   }
 
-  getMenuDbJson(){
-    return this.http.get<any>('http://localhost:3000/menuProducts');
-  }
-
-  getProductByIdDbJson(id:number){
-    return this.http.get(`${this.DBJSON}${id}`);
-  }
 }

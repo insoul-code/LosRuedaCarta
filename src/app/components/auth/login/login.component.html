@@ -1,8 +1,11 @@
 <div class="container-page-center">
   <div class="card">
-    <div class="title-login">
+    <div class="title-login" *ngIf="!mostrarVerificacion">
       <h1>Inicio de sesión</h1>
       <p>Administración de precios - Los Rueda</p>
+    </div>
+    <div *ngIf="mostrarVerificacion">
+      <h4>Hemos enviado un código de verificación a tu correo</h4>
     </div>
     <div class="alert-base alert-error" role="alert" *ngIf="showAlert">
       <span class="material-symbols-outlined">
@@ -11,45 +14,60 @@
       {{errorMsg}}
     </div>
     <form  [formGroup]="loginForm" (ngSubmit)="login()">
-      <div class="campo">
-        <label for="">Correo electrónico <span class="required">*</span></label>
+      <div *ngIf="!mostrarVerificacion">
+        <div class="campo">
+          <label for="">Correo electrónico <span class="required">*</span></label>
+            <input
+              type="text"
+              [class.is-invalid]="isEmailFieldInvalid"
+              id="email"
+              formControlName="email">
+              <div class="messages" [class.active]="isEmailFieldInvalid">
+                <small
+                    class="mensaje-error"
+                    *ngIf="emailField?.hasError('required') && emailField?.touched">
+                      * El correo electrónico es requerido
+                </small>
+                <small
+                    class="mensaje-error"
+                    *ngIf="emailField?.hasError('email')">
+                      * Este no es un correo valido, ejemplo: "{{EMAIL_EXAMPLE}}"
+                </small>
+            </div>
+        </div>
+        <div class="campo">
+          <label for="">Contraseña <span class="required">*</span></label>
+            <input
+              type="password"
+              [class.is-invalid]="isPasswordFieldInvalid"
+              id="password"
+              formControlName="password">
+              <div class="messages" [class.active]="isPasswordFieldInvalid">
+                <small
+                    class="mensaje-error"
+                    *ngIf="isPasswordFieldInvalid">
+                      * La contraseña es requerida
+                </small>
+            </div>
+        </div>
+      </div>
+      <div class="campo" *ngIf="mostrarVerificacion">
+        <label for="">Ingrese el código de verificación</label>
           <input
             type="text"
-            [class.is-invalid]="isEmailFieldInvalid"
-            id="email"
-            formControlName="email">
-            <div class="messages" [class.active]="isEmailFieldInvalid">
-              <small
-                  class="mensaje-error"
-                  *ngIf="emailField?.hasError('required') && emailField?.touched">
-                    * El correo electrónico es requerido
-              </small>
-              <small
-                  class="mensaje-error"
-                  *ngIf="emailField?.hasError('email')">
-                    * Este no es un correo valido, ejemplo: "{{EMAIL_EXAMPLE}}"
-              </small>
-          </div>
+            id="verifiCode"
+            formControlName="verifiCode">
       </div>
-      <div class="campo">
-        <label for="">Contraseña <span class="required">*</span></label>
-          <input
-            type="password"
-            [class.is-invalid]="isPasswordFieldInvalid"
-            id="password"
-            formControlName="password">
-            <div class="messages" [class.active]="isPasswordFieldInvalid">
-              <small
-                  class="mensaje-error"
-                  *ngIf="isPasswordFieldInvalid">
-                    * La contraseña es requerida
-              </small>
-          </div>
-      </div>
-      <div class="actions">
+      <div class="actions" *ngIf="!mostrarVerificacion">
         <button class="btn-base btn-primary">Iniciar sesión</button>
         <!-- <a routerLink="/registerlosrueda">¿Eres nuevo? Registrate aquí</a> -->
       </div>
     </form>
+    <div *ngIf="mostrarVerificacion">
+      <div class="actions">
+        <button class="btn-base btn-primary" (click)="confirmarRegistro()">Verificar</button>
+        <span>¿No te llego el codigo? <a (click)="reenviarCodigo()">Reenviar codigo</a></span>
+      </div>
+    </div>
   </div>
 </div>
