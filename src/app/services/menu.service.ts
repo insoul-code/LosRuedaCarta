@@ -55,6 +55,19 @@ export class MenuService {
     return this.http.put(`${this.API_URL}/products/${product.id}.json`,JSON.stringify(product));
   }
 
+  async deleteProduct(productId: number) {
+    try {
+      await fetch(`${this.API_URL}/products/${productId}.json`, {
+        method: 'DELETE',
+        headers: { 'Content-type': 'application/json' },
+      });
+      console.log(`Producto con ID ${productId} eliminado exitosamente.`);
+    } catch (error) {
+      console.error(`Error al eliminar el producto con ID ${productId}:`, error);
+    }
+  }
+
+
   getMenuDbJson(){
     return this.http.get<any>('http://localhost:3000/menuProducts');
   }

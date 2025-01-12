@@ -31,7 +31,10 @@
         </span>
         Actualizar producto
       </button>
-      <a [routerLink]="['/precios']">Volver al listado de precios</a>
+      <div class="display-group-buttons">
+        <a [routerLink]="['/precios']">Volver al listado de precios</a>
+        <a (click)="deleteProduct()" class="btn-eliminar">Eliminar producto</a>
+      </div>
     </div>
   </form>
 </div>
