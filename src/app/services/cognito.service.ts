@@ -42,7 +42,7 @@ export class CognitoService {
       UserAttributes: [
         { Name: "email", Value: email },
         { Name: "name", Value: name },
-        { Name: "role", Value: 'ADMIN'}
+        { Name: "custom:role", Value: 'ADMIN'}
       ]
     });
 

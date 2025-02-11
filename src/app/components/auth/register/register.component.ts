@@ -55,7 +55,7 @@ export class RegisterComponent {
       this.signupForm.get('verifiCode')?.value,
       this.signupForm.get('email')?.value)
       .then( __ =>{
-        this.router.navigate(['/loginlosrueda']);
+        this.router.navigate(['/login']);
       })
   }
 
