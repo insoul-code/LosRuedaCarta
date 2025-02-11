@@ -189,6 +189,24 @@ input{
   }
 }
 
+.btn-eliminar{
+  background: transparent;
+  color: red;
+  font-size: 16px;
+  text-decoration: underline;
+  span{
+    vertical-align: middle;
+    font-size: 18px;
+  }
+  @media screen and (max-width: 576px){
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+}
+
 .btn-primary{
   background: #9c8af3;
   font-size: 18px;
@@ -277,4 +295,11 @@ input{
   .carta img{
       width: 100%;
   }
+}
+
+
+.display-group-buttons{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

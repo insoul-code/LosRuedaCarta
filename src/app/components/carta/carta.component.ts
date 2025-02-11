@@ -38,8 +38,8 @@ export class CartaComponent {
       products: this.menuService.getProducts()
     }).subscribe(({ categories, products }) => {
       this.categories = categories.map(category => ({
-        id: category.id,
-        title: category.title,
+        id: category?.id,
+        title: category?.title,
         productos: []
       }));
 
@@ -54,7 +54,7 @@ export class CartaComponent {
 
   groupProductsByCategory() {
     this.groupedProducts = this.categories.map(category => {
-      const productsInCategory = this.products.filter(product => product.categoryId == category.id);
+      const productsInCategory = this.products.filter(product => product?.categoryId == category.id);
       return {
         title: category.title,
         products: productsInCategory

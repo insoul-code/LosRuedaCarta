@@ -18,14 +18,14 @@
       </thead>
       <tbody>
         @for (producto of products; track producto; let i = $index) {
-          <tr>
-            <td>{{producto.id}}</td>
-            <td>{{producto.nombreProducto}}</td>
-            <td>{{producto.precio | currency:'$':'symbol':'1.0'}}</td>
+          <tr *ngIf="producto?.id">
+            <td>{{producto?.id}}</td>
+            <td>{{producto?.nombreProducto}}</td>
+            <td>{{producto?.precio | currency:'$':'symbol':'1.0'}}</td>
             <td>
               <a
                 class="btn-base btn-edit"
-                [routerLink]="['/editarprecio',producto.id]">
+                [routerLink]="['/editarprecio',producto?.id]">
                 <span class="material-symbols-outlined">edit</span>
                 Editar
               </a>

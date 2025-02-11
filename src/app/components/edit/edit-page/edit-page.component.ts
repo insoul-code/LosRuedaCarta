@@ -8,6 +8,7 @@ import { Producto } from '@models/producto';
 import { AlertService } from '@services/alert.service';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-page',
@@ -30,7 +31,8 @@ export class EditPageComponent {
   })
 
   emailUser = '';
-
+  productId:number = 0;
+  products: any[]=[];
   productById: Producto = {
     id: 0,
     nombreProducto: '',
@@ -54,8 +56,16 @@ export class EditPageComponent {
 
   ngOnInit(): void {
     this.getOneProduct();
-    // this.getOneProductDbJson()
     this.getEmailUser();
+  }
+
+  getProducts(){
+    this.menuService.getProducts()
+    .subscribe({
+      next: (products)=>{
+        this.products = products;
+      }
+    })
   }
 
   getOneProduct(){
@@ -74,6 +84,7 @@ export class EditPageComponent {
           descripcion: this.productById?.descripcion,
           categoryId: this.productById?.categoryId,
         })
+        this.productId = data.id;
       }
     });
   }
@@ -91,6 +102,33 @@ export class EditPageComponent {
     this.menuService.updateProduct(prodcut);
     this.alertService.showAlert("El producto se ha actualizado exitosamente", 3000);
   }
+
+  deleteProduct() {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No podrás deshacer esta acción.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const getProductId = this.productId;
+        this.menuService.deleteProduct(getProductId)
+          .then(() => {
+            this.alertService.showAlert("El producto se ha eliminado correctamente", 3000);
+            this.getProducts();
+            this.router.navigate(['/precios']);
+          })
+          .catch(error => {
+            console.error("Error al eliminar el producto:", error);
+          });
+      }
+    });
+  }
+
 
   logout(){
     this.authService.logout();

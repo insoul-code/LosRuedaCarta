@@ -61,18 +61,19 @@
   <div class="container">
     <ng-container *ngFor="let group of groupedProducts; let i = index">
       <h2 [ngClass]="getClass(i)">
-        {{ group.title }}
+        {{ group?.title }}
       </h2>
+      <p *ngIf="i===5" class="yellow-text">* El burrito lleva frijol refrito</p>
 
       <ng-container *ngFor="let producto of group.products">
-        <div class="item">
-          <h3 class="title dot">{{producto.nombreProducto}}</h3>
-          <h3 class="price">{{producto.precio | currency:'$':'symbol':'1.0'}}</h3>
+        <div class="item" *ngIf="producto?.id">
+          <h3 class="title dot">{{producto?.nombreProducto}}</h3>
+          <h3 class="price">{{producto?.precio | currency:'$':'symbol':'1.0'}}</h3>
         </div>
 
-        <div *ngIf="producto.descripcion" class="description">
+        <div *ngIf="producto?.descripcion" class="description">
           <span class="red-text">*</span>
-          <span class="yellow-text">{{ producto.descripcion }}</span>
+          <span class="yellow-text">{{ producto?.descripcion }}</span>
         </div>
       </ng-container>
     </ng-container>
