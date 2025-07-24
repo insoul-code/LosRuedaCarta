@@ -1,6 +1,6 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('/loginlosrueda')
+    cy.visit('/login')
 
     cy.get('#email').type('tiago@gmail.com')
     cy.get('#password').type('12345678')

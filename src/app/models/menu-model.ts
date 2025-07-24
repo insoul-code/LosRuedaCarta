@@ -1,7 +1,7 @@
-import { Producto } from "./producto";
+import { Product } from "./product";
 
 export interface Menu{
   id: number;
   title: string;
-  productos: Producto[];
+  products: Product[];
 }

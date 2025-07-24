@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { CognitoService } from '@services/cognito.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,8 @@ export class LoginComponent {
   showAlert: boolean = false;
   errorMsg = '';
   mostrarVerificacion:boolean = false;
+  mostrarRecovery:boolean = false;
+  mostrarRecoveryPass:boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -31,7 +34,11 @@ export class LoginComponent {
     this.loginForm = this.formBuilder.group({
       email:['',[Validators.required,Validators.email]],
       password:['',[Validators.required]],
-      verifiCode:['']
+      verifiCode:[''],
+      resetPassword:['',[Validators.email]],
+      codigoResetPass:[''],
+      newPass:[''],
+      newPassConfirm:['']
     });
   }
 
@@ -86,6 +93,37 @@ export class LoginComponent {
     this.cognitoService.resendCode(
       this.loginForm.get('email')?.value
     )
+  }
+
+  mostrarRecueprar(){
+    this.mostrarRecovery = true;
+  }
+
+  codigoRecuperarContrasena(){
+    this.cognitoService.resetCodePassword(
+      this.loginForm.get('resetPassword')?.value
+    )
+    this.mostrarRecoveryPass = true;
+  }
+
+  confirmacionRecuperarContrasena(){
+    this.cognitoService.resetConfirmationPassword(
+      this.loginForm.get('resetPassword')?.value,
+      this.loginForm.get('codigoResetPass')?.value,
+      this.loginForm.get('newPass')?.value
+    ).then((_) =>{
+      this.mostrarRecoveryPass = false;
+      this.mostrarRecovery = false;
+    }).catch((error) =>{
+      Swal.fire({
+        title: 'Ha ocurrido un error',
+        text: error,
+        icon: 'warning',
+        showCancelButton: true
+      })
+    })
+
+
   }
 
   get emailField() {

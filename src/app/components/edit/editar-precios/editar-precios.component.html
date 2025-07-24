@@ -20,8 +20,8 @@
         @for (producto of products; track producto; let i = $index) {
           <tr *ngIf="producto?.id">
             <td>{{producto?.id}}</td>
-            <td>{{producto?.nombreProducto}}</td>
-            <td>{{producto?.precio | currency:'$':'symbol':'1.0'}}</td>
+            <td>{{producto?.name}}</td>
+            <td>{{producto?.price | currency:'$':'symbol':'1.0'}}</td>
             <td>
               <a
                 class="btn-base btn-edit"

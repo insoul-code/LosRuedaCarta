@@ -11,7 +11,9 @@ import {
   NotAuthorizedException,
   ResendConfirmationCodeCommand,
   SignUpCommand,
-  UserNotConfirmedException
+  UserNotConfirmedException,
+  ForgotPasswordCommand,
+  ConfirmForgotPasswordCommand
 } from "@aws-sdk/client-cognito-identity-provider";
 import { CookieService } from 'ngx-cookie-service';
 
@@ -83,6 +85,7 @@ export class CognitoService {
       const { AuthenticationResult } = await this.client.send(command);
       this.cookieService.set('refreshToken', AuthenticationResult.RefreshToken);
       this.cookieService.set('accessToken', AuthenticationResult.AccessToken);
+      this.cookieService.set('idToken', AuthenticationResult.IdToken);
       return AuthenticationResult;
     } catch(error: UserNotConfirmedException | NotAuthorizedException | any) {
       throw new Error(error.name);
@@ -139,6 +142,7 @@ export class CognitoService {
       const { $metadata } = await this.client.send(command);
 
       if ($metadata.httpStatusCode == 200) {
+        this.cookieService.deleteAll();
         return 'Se ha cerrado la sesión.';
       } else {
         throw new Error('Falló el cirre de la sesión.');
@@ -146,6 +150,7 @@ export class CognitoService {
     })
 
   }
+
   public async refreshToken() {
     const command = new InitiateAuthCommand({
       AuthFlow: AuthFlowType.REFRESH_TOKEN_AUTH,
@@ -158,11 +163,46 @@ export class CognitoService {
     const { AuthenticationResult, $metadata } = await this.client.send(command);
     this.cookieService.set('refreshToken', AuthenticationResult.RefreshToken);
     this.cookieService.set('accessToken', AuthenticationResult.AccessToken);
+    this.cookieService.set('idToken', AuthenticationResult.IdToken);
     if ($metadata.httpStatusCode == 200) {
       return AuthenticationResult;
     } else {
       throw new Error('Falló el inicio de sesión.');
     }
 
+  }
+
+  public async resetCodePassword(email: string): Promise<string> {
+    const command = new ForgotPasswordCommand({
+      ClientId: environment.cognito.userPoolWebClientId,
+      Username: email,
+    });
+
+    try {
+      await this.client.send(command);
+      return "Password reset initiated. Check your email for further instructions.";
+    } catch (error: any) {
+      if (error.name === "CodeMismatchException") {
+        throw new Error("The code provided does not match.");
+      } else {
+        console.error("Error in password reset:", error);
+        throw new Error("An error occurred while initiating the password reset.");
+      }
+    }
+  }
+
+  public async resetConfirmationPassword(email: string, code: string, password: string ){
+    const command = new ConfirmForgotPasswordCommand({
+      ClientId: environment.cognito.userPoolWebClientId,
+      Username: email,
+      ConfirmationCode: code,
+      Password: password
+    });
+    try {
+      return await this.client.send(command);
+    } catch (error: any) {
+        console.error("Error in password reset:", error);
+        throw new Error("An error occurred while initiating the password reset.");
+    }
   }
 }

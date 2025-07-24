@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   logout(){
-    this.router.navigate(['/loginlosrueda']);
+    this.router.navigate(['/login']);
     this.cookieService.delete('token');
     this.cookieService.delete('email');
   }

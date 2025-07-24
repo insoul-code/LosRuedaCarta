@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Menu } from '@models/menu-model';
-import { Producto } from '@models/producto';
+import { Product } from '@models/product';
 import { Router } from '@angular/router';
 import { Subject, tap } from 'rxjs';
 
@@ -40,7 +40,7 @@ export class MenuService {
     return this.http.get(`${this.API_URL}/products/${id}.json`);
   }
 
-  async updateProduct(product:Producto) {
+  async updateProduct(product:Product) {
     try{
       await fetch(`${this.API_URL}/products/${product.id}.json`,
                   {method:'PUT', body: JSON.stringify(product), headers: {'Content-type': 'application/json'}}
@@ -50,7 +50,7 @@ export class MenuService {
     }
   }
 
-  updateOneProduct(product:Producto) {
+  updateOneProduct(product:Product) {
     return this.http.put(`${this.API_URL}/products/${product.id}.json`,JSON.stringify(product));
   }
 

@@ -24,6 +24,7 @@ export class RegisterComponent {
     private cognitoService: CognitoService) { }
 
     mostrarVerificacion:boolean = false;
+    mostrarRecovery:boolean = false;
     respuestaRegistro: string = '';
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
@@ -64,4 +65,5 @@ export class RegisterComponent {
       this.signupForm.get('email')?.value
     )
   }
+
 }

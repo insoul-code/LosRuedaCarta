@@ -7,12 +7,18 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { LoadingInterceptor } from './interceptor/loading.interceptor';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { httpInterceptor } from '@interceptor/http.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(withInterceptors([LoadingInterceptor]), withFetch()),
+    provideHttpClient(withInterceptors(
+      [
+        LoadingInterceptor,
+        httpInterceptor
+      ]
+    ), withFetch()),
     importProvidersFrom([
       provideFirebaseApp(() => initializeApp(
         {

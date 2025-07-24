@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MenuService } from '@services/menu.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { switchMap } from 'rxjs';
-import { Producto } from '@models/producto';
+import { Product } from '@models/product';
 import { AlertService } from '@services/alert.service';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import Swal from 'sweetalert2';
+import { ApiAwsService } from '@services/api-aws.service';
 
 @Component({
   selector: 'app-edit-page',
@@ -33,12 +34,12 @@ export class EditPageComponent {
   emailUser = '';
   productId:number = 0;
   products: any[]=[];
-  productById: Producto = {
+  productById: Product = {
     id: 0,
-    nombreProducto: '',
-    precio: 0,
-    descripcion: '',
-    categoryId: 0
+    name: '',
+    price: 0,
+    description: '',
+    category: 0
   };
 
   productByIdDbJson: any[]=[];
@@ -46,6 +47,7 @@ export class EditPageComponent {
   constructor(
     private formBuilder: FormBuilder,
     private menuService: MenuService,
+    private apiAwsService: ApiAwsService,
     private route: ActivatedRoute,
     private router: Router,
     private alertService: AlertService,
@@ -60,7 +62,7 @@ export class EditPageComponent {
   }
 
   getProducts(){
-    this.menuService.getProducts()
+    this.apiAwsService.getProducts()
     .subscribe({
       next: (products)=>{
         this.products = products;
@@ -79,10 +81,10 @@ export class EditPageComponent {
         this.productById = data;
         this.formulario = this.formBuilder.group({
           id: this.productById?.id,
-          nombreProducto: this.productById?.nombreProducto,
-          precio: this.productById?.precio,
-          descripcion: this.productById?.descripcion,
-          categoryId: this.productById?.categoryId,
+          nombreProducto: this.productById?.name,
+          precio: this.productById?.price,
+          descripcion: this.productById?.description,
+          categoryId: this.productById?.category,
         })
         this.productId = data.id;
       }

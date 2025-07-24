@@ -1,6 +1,6 @@
 <div class="container-page-center">
   <div class="card">
-    <div class="title-login" *ngIf="!mostrarVerificacion">
+    <div class="title-login" *ngIf="!mostrarVerificacion && !mostrarRecovery">
       <h1>Inicio de sesión</h1>
       <p>Administración de precios - Los Rueda</p>
     </div>
@@ -14,7 +14,7 @@
       {{errorMsg}}
     </div>
     <form  [formGroup]="loginForm" (ngSubmit)="login()">
-      <div *ngIf="!mostrarVerificacion">
+      <div *ngIf="!mostrarVerificacion && !mostrarRecovery">
         <div class="campo">
           <label for="">Correo electrónico <span class="required">*</span></label>
             <input
@@ -58,15 +58,50 @@
             id="verifiCode"
             formControlName="verifiCode">
       </div>
-      <div class="actions" *ngIf="!mostrarVerificacion">
+      <div class="campo" *ngIf="mostrarRecovery">
+        <label for="">Ingrese el correo registrado</label>
+          <input
+            type="text"
+            id="resetPassword"
+            formControlName="resetPassword">
+      </div>
+      <div class="form-recovery" *ngIf="mostrarRecoveryPass">
+        <div class="campo">
+          <label for="">Ingrese el código de verificación</label>
+            <input
+              type="text"
+              id="codigoResetPass"
+              formControlName="codigoResetPass">
+        </div>
+        <div class="campo">
+          <label for="">Nueva contraseña</label>
+            <input
+              type="text"
+              id="newPass"
+              formControlName="newPass">
+        </div>
+      </div>
+      <div class="actions" *ngIf="!mostrarVerificacion && !mostrarRecovery">
         <button class="btn-base btn-primary">Iniciar sesión</button>
-        <!-- <a routerLink="/registerlosrueda">¿Eres nuevo? Registrate aquí</a> -->
+        <a routerLink="/register">¿Eres nuevo? Registrate aquí</a>
+        <br>
+        <a (click)="mostrarRecueprar()">Recuperar contraseña</a>
       </div>
     </form>
     <div *ngIf="mostrarVerificacion">
       <div class="actions">
         <button class="btn-base btn-primary" (click)="confirmarRegistro()">Verificar</button>
         <span>¿No te llego el codigo? <a (click)="reenviarCodigo()">Reenviar codigo</a></span>
+      </div>
+    </div>
+    <div *ngIf="mostrarRecovery && !mostrarRecoveryPass">
+      <div class="actions">
+        <button class="btn-base btn-primary" (click)="codigoRecuperarContrasena()">Recuperar contraseña</button>
+      </div>
+    </div>
+    <div *ngIf="mostrarRecoveryPass">
+      <div class="actions">
+        <button class="btn-base btn-primary" (click)="confirmacionRecuperarContrasena()">Cambiar contraseña</button>
       </div>
     </div>
   </div>
