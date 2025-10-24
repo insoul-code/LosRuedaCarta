@@ -4,4 +4,5 @@ export interface Producto{
   precio: number;
   descripcion: string;
   categoryId: number;
+  orden?: number; // Campo opcional para el orden de los productos
 }

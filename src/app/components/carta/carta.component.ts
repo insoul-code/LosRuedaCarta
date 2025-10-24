@@ -37,14 +37,18 @@ export class CartaComponent {
       categories: this.menuService.consultMenu(),
       products: this.menuService.getProducts()
     }).subscribe(({ categories, products }) => {
-      this.categories = categories.map(category => ({
-        id: category?.id,
-        title: category?.title,
-        productos: []
-      }));
-      console.log('Categorias', categories);
+      // Procesar categorías para manejar estructura no secuencial de Firebase
+      this.categories = Object.keys(categories)
+        .filter(key => categories[key as any] && categories[key as any].title)
+        .map(key => ({
+          id: parseInt(categories[key as any].id.toString()),
+          title: categories[key as any].title,
+          productos: []
+        }));
+      console.log('Categorias procesadas:', this.categories);
 
-      this.products = products;
+      // Filtrar productos nulos o inválidos
+      this.products = products.filter((product: any) => product && product.id);
       this.groupProductsByCategory();
       console.log('Grouped Products:', this.groupedProducts);
     });
@@ -56,10 +60,23 @@ export class CartaComponent {
 
   groupProductsByCategory() {
     this.groupedProducts = this.categories.map(category => {
-      const productsInCategory = this.products.filter(product => product?.categoryId == category.id);
+      const productsInCategory = this.products.filter(product => {
+        // Convertir categoryId a número si es string para comparación
+        const productCategoryId = typeof product?.categoryId === 'string' ? parseInt(product.categoryId) : product?.categoryId;
+        return productCategoryId === category.id;
+      });
+
+      // Ordenar productos por el campo 'orden' si existe, sino por ID
+      const sortedProducts = productsInCategory.sort((a: any, b: any) => {
+        if (a.orden !== undefined && b.orden !== undefined) {
+          return a.orden - b.orden;
+        }
+        return a.id - b.id;
+      });
+
       return {
         title: category.title,
-        products: productsInCategory
+        products: sortedProducts
       };
     });
   }
@@ -77,7 +94,8 @@ export class CartaComponent {
     this.menuService.getProducts()
     .subscribe({
       next: (products)=>{
-        this.products = products;
+        // Filtrar productos nulos o inválidos
+        this.products = products.filter((product: any) => product && product.id);
       }
     })
   }
