@@ -49,6 +49,13 @@ export const routes: Routes = [
     component: EditarCategoriaComponent
 },
 {
+    path: 'crearcategoria',
+    canActivate: [
+      loggedGuard
+    ],
+    component: EditarCategoriaComponent
+},
+{
     path: 'loginlosrueda',
     component: LoginComponent
 },

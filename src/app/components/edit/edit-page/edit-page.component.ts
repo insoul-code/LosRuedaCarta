@@ -159,6 +159,10 @@ export class EditPageComponent {
     this.authService.logout();
   }
 
+  navigateBack(){
+    this.router.navigate(['/precios']);
+  }
+
   getEmailUser(){
     this.emailUser = this.cookieService.get('email') || '';
   }

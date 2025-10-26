@@ -1,6 +1,6 @@
 <div class="container container-page-center">
   <h1>{{isCreating ? 'Crear nuevo producto' : 'Editando precio'}}</h1>
-  <form (ngSubmit)="isCreating ? createProduct() : updateProduct()" [formGroup]="formulario">
+  <form (ngSubmit)="isCreating ? createProduct() : updateProduct()" [formGroup]="formulario" class="custom-width">
     <div class="campo">
       <label for="">Nombre producto</label>
         <input
@@ -47,17 +47,17 @@
         </div>
     </div>
     <div class="actions">
-      <button
-        type="submit"
-        class="btn-base btn-primary">
-        <span class="material-symbols-outlined">
-          {{isCreating ? 'add' : 'update'}}
-        </span>
-        {{isCreating ? 'Crear producto' : 'Actualizar producto'}}
-      </button>
       <div class="display-group-buttons">
-        <a [routerLink]="['/precios']">Volver al listado de precios</a>
-        <a *ngIf="!isCreating" (click)="deleteProduct()" class="btn-eliminar">Eliminar producto</a>
+        <button
+          type="submit"
+          class="btn-base btn-save">
+          <span class="material-symbols-outlined">
+            {{isCreating ? 'add' : 'update'}}
+          </span>
+          {{isCreating ? 'Crear producto' : 'Actualizar producto'}}
+        </button>
+        <button type="button" (click)="navigateBack()" class="btn-base btn-cancel">Volver al listado de precios</button>
+        <button type="button" *ngIf="!isCreating" (click)="deleteProduct()" class="btn-base btn-delete">Eliminar producto</button>
       </div>
     </div>
   </form>

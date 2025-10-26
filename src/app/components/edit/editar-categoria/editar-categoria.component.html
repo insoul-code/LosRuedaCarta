@@ -1,15 +1,10 @@
 <div class="container container-page">
   <div class="nav">
-    <h1>Editar Categoría</h1>
-    <div class="info-user">
-      <p>{{emailUser}}</p>
-      <a (click)="logout()">Cerrar sesión</a>
-    </div>
+    <h1>{{isCreating ? 'Crear nueva categoría' : 'Editar Categoría'}}</h1>
   </div>
 
-  <div class="form-container" *ngIf="!isLoading && categoria && categoria.id">
-    <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()" class="edit-form">
-      <div class="form-group">
+    <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading && (isCreating || (categoria && categoria.id))">
+      <div class="campo">
         <label for="title">Nombre de la Categoría</label>
         <input
           type="text"
@@ -30,25 +25,24 @@
           <span class="material-symbols-outlined">cancel</span>
           Cancelar
         </button>
-        <button type="button" class="btn-base btn-delete" (click)="confirmarEliminacion()" [disabled]="isLoading">
+        <button type="button" class="btn-base btn-delete" (click)="confirmarEliminacion()" [disabled]="isLoading" *ngIf="!isCreating">
           <span class="material-symbols-outlined">delete</span>
           Eliminar
         </button>
-        <button type="submit" class="btn-base btn-save" [disabled]="categoriaForm.invalid || isLoading || !categoria">
-          <span class="material-symbols-outlined" *ngIf="!isLoading">save</span>
+        <button type="submit" class="btn-base btn-save" [disabled]="categoriaForm.invalid || isLoading || (!isCreating && !categoria)">
+          <span class="material-symbols-outlined" *ngIf="!isLoading">{{isCreating ? 'add' : 'save'}}</span>
           <span class="loading-spinner" *ngIf="isLoading"></span>
-          {{ isLoading ? 'Guardando...' : 'Guardar' }}
+          {{ isLoading ? (isCreating ? 'Creando...' : 'Guardando...') : (isCreating ? 'Crear Categoría' : 'Guardar') }}
         </button>
       </div>
     </form>
-  </div>
 
   <div class="loading-container" *ngIf="isLoading">
     <div class="loading-spinner"></div>
     <p>Cargando categoría...</p>
   </div>
 
-  <div class="error-container" *ngIf="!isLoading && !categoria">
+  <div class="error-container" *ngIf="!isLoading && (!isCreating && !categoria)">
     <p>No se pudo cargar la categoría</p>
     <button class="btn-base btn-cancel" (click)="cancelar()">Volver</button>
   </div>

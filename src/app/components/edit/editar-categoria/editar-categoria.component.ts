@@ -21,6 +21,7 @@ export class EditarCategoriaComponent implements OnInit {
   categoriaId: number = 0;
   emailUser = '';
   isLoading = false;
+  isCreating: boolean = false;
 
   constructor(
     private menuService: MenuService,
@@ -41,22 +42,33 @@ export class EditarCategoriaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('🚀 INICIANDO COMPONENTE EDITAR CATEGORÍA');
+    console.log('🚀 INICIANDO COMPONENTE CATEGORÍA');
     this.getEmailUser();
+
+    // Verificar si es creación o edición
     this.route.params.subscribe(params => {
       console.log('📋 Parámetros de ruta recibidos:', params);
-      const id = +params['id'];
-      console.log('🔢 ID convertido a número:', id);
-      console.log('✅ ID es válido:', !isNaN(id) && id > 0);
 
-      if (id && !isNaN(id)) {
-        this.categoriaId = id;
-        console.log('✅ ID válido, cargando categoría:', this.categoriaId);
-        this.loadCategoria();
+      if (params['id']) {
+        this.isCreating = false;
+        const id = +params['id'];
+        console.log('🔢 ID convertido a número:', id);
+        console.log('✅ ID es válido:', !isNaN(id) && id > 0);
+
+        if (id && !isNaN(id)) {
+          this.categoriaId = id;
+          console.log('✅ ID válido, cargando categoría:', this.categoriaId);
+          this.loadCategoria();
+        } else {
+          console.error('❌ ID de categoría inválido:', params['id']);
+          console.log('🔄 Redirigiendo a lista de categorías...');
+          this.router.navigate(['/editarcategorias']);
+        }
       } else {
-        console.error('❌ ID de categoría inválido:', params['id']);
-        console.log('🔄 Redirigiendo a lista de categorías...');
-        this.router.navigate(['/editarcategorias']);
+        // No hay ID, es modo creación
+        console.log('➕ Modo creación de categoría');
+        this.isCreating = true;
+        this.initializeFormForCreation();
       }
     });
   }
@@ -141,6 +153,15 @@ export class EditarCategoriaComponent implements OnInit {
   }
 
   onSubmit() {
+    // Verificar si es creación o edición
+    if (this.isCreating) {
+      this.createCategory();
+    } else {
+      this.updateCategory();
+    }
+  }
+
+  updateCategory() {
     // Verificación adicional de seguridad
     if (!this.categoria || !this.categoria.id) {
       console.error('❌ Categoría no disponible para editar');
@@ -182,6 +203,51 @@ export class EditarCategoriaComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  createCategory() {
+    console.log('Formulario válido:', this.categoriaForm.valid);
+    console.log('Errores del formulario:', this.categoriaForm.errors);
+    console.log('Valores del formulario:', this.categoriaForm.value);
+
+    // Marcar todos los campos como tocados para mostrar errores
+    this.categoriaForm.markAllAsTouched();
+
+    if (this.categoriaForm.invalid) {
+      console.log('Formulario inválido, no se puede crear la categoría');
+      return;
+    }
+
+    if (this.isLoading) {
+      console.log('⏳ Ya se está procesando una solicitud');
+      return;
+    }
+
+    console.log('➕ Creando nueva categoría:', this.categoriaForm.value.title);
+    this.isLoading = true;
+
+    const newCategory = {
+      title: this.categoriaForm.value.title,
+      productos: []
+    };
+
+    this.menuService.createCategory(newCategory).subscribe({
+      next: (response) => {
+        console.log('✅ Categoría creada exitosamente:', response);
+        this.router.navigate(['/editarcategorias']);
+      },
+      error: (error) => {
+        console.error('❌ Error al crear la categoría:', error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  initializeFormForCreation() {
+    this.categoriaForm = this.formBuilder.group({
+      title: ['', [Validators.required, Validators.minLength(2)]]
+    });
+    console.log('Formulario inicializado para creación');
   }
 
   cancelar() {

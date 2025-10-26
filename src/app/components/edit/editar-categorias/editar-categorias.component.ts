@@ -18,20 +18,12 @@ export class EditarCategoriasComponent implements OnInit {
 
   menuCategories: Menu[] = [];
   emailUser = '';
-  showCreateForm = false;
-  isCreating = false;
-  createCategoryForm: FormGroup;
 
   constructor(
     private menuService: MenuService,
     private authService: AuthService,
     private cookieService: CookieService,
-    private router: Router,
-    private formBuilder: FormBuilder){
-
-      this.createCategoryForm = this.formBuilder.group({
-        title: ['', [Validators.required, Validators.minLength(2)]]
-      });
+    private router: Router){
     }
 
   ngOnInit(): void {
@@ -80,9 +72,9 @@ export class EditarCategoriasComponent implements OnInit {
     this.emailUser = this.cookieService.get('email') || '';
   }
 
-  testNavigation() {
-    console.log('🧪 PROBANDO NAVEGACIÓN CON ID FIJO: 1');
-    this.navigateToEdit(1);
+  navigateToCreate() {
+    console.log('🔄 Navegando a crear categoría');
+    this.router.navigate(['/crearcategoria']);
   }
 
   navigateToEdit(categoriaId: number | undefined) {
@@ -110,51 +102,6 @@ export class EditarCategoriasComponent implements OnInit {
     } else {
       console.error('❌ ID de categoría no válido:', categoriaId);
     }
-  }
-
-  onCreateSubmit() {
-    if (!this.createCategoryForm.valid) {
-      console.error('❌ Formulario de creación inválido');
-      return;
-    }
-
-    if (this.isCreating) {
-      console.log('⏳ Ya se está creando una categoría');
-      return;
-    }
-
-    console.log('➕ Creando nueva categoría:', this.createCategoryForm.value.title);
-    this.isCreating = true;
-
-    const newCategory = {
-      title: this.createCategoryForm.value.title,
-      productos: []
-    };
-
-    this.menuService.createCategory(newCategory).subscribe({
-      next: (response) => {
-        console.log('✅ Categoría creada exitosamente:', response);
-        this.createCategoryForm.reset();
-        this.showCreateForm = false;
-        this.isCreating = false;
-        // Recargar la lista de categorías
-        this.getCategories();
-      },
-      error: (error) => {
-        console.error('❌ Error al crear la categoría:', error);
-        this.isCreating = false;
-      }
-    });
-  }
-
-  cancelCreate() {
-    this.createCategoryForm.reset();
-    this.showCreateForm = false;
-    this.isCreating = false;
-  }
-
-  get titleControl() {
-    return this.createCategoryForm.get('title');
   }
 
 }
