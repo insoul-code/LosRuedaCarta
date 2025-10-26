@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MenuService } from '@services/menu.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
@@ -27,7 +27,8 @@ export class EditarPreciosComponent {
     private menuService: MenuService,
     private authService: AuthService,
     private cookieService: CookieService,
-    private alertService: AlertService){
+    private alertService: AlertService,
+    private router: Router){
     }
 
   ngOnInit(): void {
@@ -154,6 +155,10 @@ export class EditarPreciosComponent {
       .catch(error => {
         console.error('Error en migración de productos:', error);
       });
+  }
+
+  navigateToCreate() {
+    this.router.navigate(['/crearproducto']);
   }
 
 }

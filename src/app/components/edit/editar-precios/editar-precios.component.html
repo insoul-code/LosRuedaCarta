@@ -2,10 +2,10 @@
   <div class="nav">
     <h1>Listado de productos</h1>
     <div class="nav-actions">
-      <a [routerLink]="['/crearproducto']" class="btn-base btn-primary">
+      <button type="button" (click)="navigateToCreate()" class="btn-base btn-primary">
         <span class="material-symbols-outlined">add</span>
         Crear producto
-      </a>
+      </button>
     </div>
   </div>
   <div class="cont-table">

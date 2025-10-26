@@ -52,42 +52,9 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-// Estilos para la tabla
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid #dee2e6;
-}
-
-th {
-  background-color: #1c1c1c;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-// Estilos específicos para la columna de orden
 th:nth-child(3), td:nth-child(3) {
   width: 80px;
   text-align: center;
   font-weight: 600;
-  color: var(--yellow);
-}
-
-// Estilos para el handle de arrastre
-td:first-child {
-  width: 40px;
-  text-align: center;
-}
-
-// Estilos para la columna de ID
-th:nth-child(2), td:nth-child(2) {
-  width: 60px;
-  text-align: center;
-  font-weight: 500;
-  color: #6c757d;
+  color: #9c8af3;
 }
