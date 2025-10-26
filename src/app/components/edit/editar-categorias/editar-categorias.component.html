@@ -1,0 +1,41 @@
+<div class="container container-page">
+  <div class="nav">
+    <h1>Listado de categorías</h1>
+    <div class="create-button-container">
+      <button class="btn-base btn-primary" (click)="navigateToCreate()">
+        <span class="material-symbols-outlined">add</span>
+        Crear Nueva Categoría
+      </button>
+    </div>
+  </div>
+
+
+  <div class="cont-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Categoría</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (categoria of menuCategories; track categoria; let i = $index) {
+          <tr *ngIf="categoria?.id">
+            <td>{{categoria?.id}}</td>
+            <td>{{categoria?.title}}</td>
+            <td>
+              <button
+                class="btn-base btn-edit"
+                (click)="navigateToEdit(categoria?.id)"
+                type="button">
+                <span class="material-symbols-outlined">edit</span>
+                Editar
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

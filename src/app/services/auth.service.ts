@@ -4,7 +4,7 @@ import { User } from '@models/user';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 // import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable, from } from 'rxjs';
+import { Observable, from, BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -14,12 +14,19 @@ export class AuthService {
   API_URL='https://losruedacarta-default-rtdb.firebaseio.com/users.json';
   DBJSON='http://localhost:3000/users';
 
+  // Observable para el estado de autenticación
+  private authStatusSubject = new BehaviorSubject<boolean>(false);
+  public authStatus$ = this.authStatusSubject.asObservable();
+
   constructor(
     private http: HttpClient,
     private router: Router,
     private cookieService: CookieService,
     // private auth: AngularFireAuth
-  ) { }
+  ) {
+    // Inicializar con el estado actual de la cookie
+    this.authStatusSubject.next(!!this.cookieService.check('token'));
+  }
 
   register(newuser: User){
     return this.http.post<User>(`${this.API_URL}`,newuser);
@@ -39,5 +46,11 @@ export class AuthService {
     this.router.navigate(['/loginlosrueda']);
     this.cookieService.delete('token');
     this.cookieService.delete('email');
+    this.authStatusSubject.next(false);
+  }
+
+  // Método para actualizar el estado de autenticación
+  setLoggedIn(isLoggedIn: boolean) {
+    this.authStatusSubject.next(isLoggedIn);
   }
 }

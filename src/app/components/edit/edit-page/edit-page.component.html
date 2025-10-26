@@ -1,39 +1,63 @@
 <div class="container container-page-center">
-  <h1>Editando precio</h1>
-  <form (ngSubmit)="updateProduct()" [formGroup]="formulario">
+  <h1>{{isCreating ? 'Crear nuevo producto' : 'Editando precio'}}</h1>
+  <form (ngSubmit)="isCreating ? createProduct() : updateProduct()" [formGroup]="formulario" class="custom-width">
     <div class="campo">
       <label for="">Nombre producto</label>
         <input
           type="text"
           id="name"
-          formControlName="nombreProducto">
+          formControlName="nombreProducto"
+          [class.error]="formulario.get('nombreProducto')?.invalid && formulario.get('nombreProducto')?.touched">
+        <div *ngIf="formulario.get('nombreProducto')?.invalid && formulario.get('nombreProducto')?.touched" class="error-message">
+          El nombre del producto es requerido
+        </div>
     </div>
     <div class="campo">
       <label for="">Precio</label>
         <input
           type="number"
           id="price"
-          formControlName="precio">
+          formControlName="precio"
+          [class.error]="formulario.get('precio')?.invalid && formulario.get('precio')?.touched">
+        <div *ngIf="formulario.get('precio')?.invalid && formulario.get('precio')?.touched" class="error-message">
+          El precio es requerido y debe ser mayor a 0
+        </div>
     </div>
     <div class="campo">
-      <label for="">Description</label>
+      <label for="">Description (opcional)</label>
         <input
           type="text"
           id="description"
-          formControlName="descripcion">
+          formControlName="descripcion"
+          placeholder="Ingrese una descripción del producto">
+    </div>
+    <div class="campo">
+      <label for="">Categoría</label>
+        <select
+          id="category"
+          formControlName="categoryId"
+          [class.error]="formulario.get('categoryId')?.invalid && formulario.get('categoryId')?.touched">
+          <option value="">Seleccione una categoría</option>
+          @for (category of categories; track category.id) {
+            <option [value]="category.id">{{category.title}}</option>
+          }
+        </select>
+        <div *ngIf="formulario.get('categoryId')?.invalid && formulario.get('categoryId')?.touched" class="error-message">
+          Debe seleccionar una categoría
+        </div>
     </div>
     <div class="actions">
-      <button
-        type="submit"
-        class="btn-base btn-primary">
-        <span class="material-symbols-outlined">
-          update
-        </span>
-        Actualizar producto
-      </button>
       <div class="display-group-buttons">
-        <a [routerLink]="['/precios']">Volver al listado de precios</a>
-        <a (click)="deleteProduct()" class="btn-eliminar">Eliminar producto</a>
+        <button
+          type="submit"
+          class="btn-base btn-save">
+          <span class="material-symbols-outlined">
+            {{isCreating ? 'add' : 'update'}}
+          </span>
+          {{isCreating ? 'Crear producto' : 'Actualizar producto'}}
+        </button>
+        <button type="button" (click)="navigateBack()" class="btn-base btn-cancel">Volver al listado de precios</button>
+        <button type="button" *ngIf="!isCreating" (click)="deleteProduct()" class="btn-base btn-delete">Eliminar producto</button>
       </div>
     </div>
   </form>

@@ -1,26 +1,38 @@
 <div class="container container-page">
   <div class="nav">
     <h1>Listado de productos</h1>
-    <div class="info-user">
-      <p>{{emailUser}}</p>
-      <a (click)="logout()">Cerrar sesión</a>
+    <div class="nav-actions">
+      <a [routerLink]="['/crearproducto']" class="btn-base btn-primary">
+        <span class="material-symbols-outlined">add</span>
+        Crear producto
+      </a>
     </div>
   </div>
   <div class="cont-table">
     <table>
       <thead>
         <tr>
+          <th></th>
           <th>Id</th>
+          <th>Orden</th>
           <th>Producto</th>
+          <th>Categoría</th>
           <th>Precio</th>
           <th>Acciones</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody cdkDropList (cdkDropListDropped)="onDrop($event)">
         @for (producto of products; track producto; let i = $index) {
-          <tr *ngIf="producto?.id">
+          <tr *ngIf="producto?.id" cdkDrag [cdkDragData]="producto" class="draggable-row">
+            <td>
+              <div class="drag-handle">
+                <span class="material-symbols-outlined">drag_indicator</span>
+              </div>
+            </td>
             <td>{{producto?.id}}</td>
+            <td>{{producto?.orden || 'N/A'}}</td>
             <td>{{producto?.nombreProducto}}</td>
+            <td>{{getCategoryName(producto?.categoryId)}}</td>
             <td>{{producto?.precio | currency:'$':'symbol':'1.0'}}</td>
             <td>
               <a

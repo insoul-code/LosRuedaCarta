@@ -1,63 +1,5 @@
 <div class="carta">
-  <img src="./../assets/images/logo.png" alt="">
-  <!-- <div class="container">
-        @for (producto of products; track producto){
-          @switch (producto.categoryId) {
-            @case (1) {
-              <h2 class="yellow-text">Carnes</h2>
-            }
-            @case (2) {
-              <h2 class="red-text">Chuzos</h2>
-            }
-            @case (3) {
-              <h2 class="green-text">Picadas</h2>
-            }
-            @case (4) {
-              <h2 class="yellow-text">Hamburguesas</h2>
-            }
-            @case (5) {
-              <h2 class="red-text">Burritos</h2>
-            }
-            @case (6) {
-              <h2 class="green-text">Quesadillas</h2>
-            }
-            @case (7) {
-              <h2 class="yellow-text">Maicitos</h2>
-            }
-            @case (8) {
-              <h2 class="red-text">Perros y perras</h2>
-            }
-            @case (9) {
-              <h2 class="green-text">Arepas</h2>
-            }
-            @case (10) {
-              <h2 class="yellow-text">Patacones</h2>
-            }
-            @case (11) {
-              <h2 class="red-text">Papas fritas</h2>
-            }
-            @case (12) {
-              <h2 class="green-text">Chorizos</h2>
-            }
-            @case (13) {
-              <h2 class="yellow-text">Jugos y bebidas</h2>
-            }
-            @case (14) {
-              <h2 class="red-text">Para picar</h2>
-            }
-          }
-          <div class="item">
-            <h3  class="title dot">{{producto.nombreProducto}}</h3>
-            <h3  class="price">{{producto.precio | currency:'$':'symbol':'1.0'}}</h3>
-          </div>
-          @if (producto.descripcion !== '' && producto.descripcion !== null){
-            <div class="description">
-              <span class="red-text">*</span> <span class="yellow-text"> {{producto.descripcion}}</span>
-            </div>
-          }
-        }
-  </div> -->
-
+  <img src="./../assets/images/logolosrueda.svg" alt="">
   <div class="container">
     <ng-container *ngFor="let group of groupedProducts; let i = index">
       <h2 [ngClass]="getClass(i)">
@@ -78,23 +20,6 @@
       </ng-container>
     </ng-container>
   </div>
-
-  <!-- <div class="container">
-    @for (menuProductos of menuProducts; track menuProductos){
-      <h2 [ngClass]="getClass(menuProductos.id)">{{menuProductos.title}}</h2>
-      @for (producto of menuProductos.products; track producto){
-        <div class="item">
-          <h3  class="title dot">{{producto.nombreProducto}}</h3>
-          <h3  class="price">{{producto.precio | currency:'$':'symbol':'1.0'}}</h3>
-        </div>
-        @if (producto.descripcion !== '' && producto.descripcion !== null){
-          <div class="description">
-            <span class="red-text">*</span> <span class="yellow-text"> {{producto.descripcion}}</span>
-          </div>
-        }
-      }
-    }
-  </div> -->
 </div>
 <div class="flex">
   <div class="whatsapp">

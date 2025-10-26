@@ -1,3 +1,14 @@
+<div class="info-user" *ngIf="isLoggedIn">
+  <div class="menu tabs">
+    <a class="tab-base" [class.active]="currentUrl === '/'" href="/">Carta</a>
+    <a class="tab-base" [class.active]="currentUrl.startsWith('/precios') || currentUrl.startsWith('/editarprecio') || currentUrl.startsWith('/crearproducto')" href="/precios">Productos</a>
+    <a class="tab-base" [class.active]="currentUrl.startsWith('/editarcategorias') || currentUrl.startsWith('/editarcategoria') || currentUrl.startsWith('/crearcategoria')" href="/editarcategorias">Categorías</a>
+  </div>
+  <div class="logout">
+    <p>{{emailUser}}</p>
+    <a (click)="logout()">Cerrar sesión</a>
+  </div>
+</div>
 <app-loading></app-loading>
 <div class="alert-base alert-done" *ngIf="showAlert">
   <span class="material-symbols-outlined">done</span>

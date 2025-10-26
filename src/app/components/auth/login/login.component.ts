@@ -43,6 +43,8 @@ export class LoginComponent {
         if (matchingUserKeys) {
           this.cookieService.set('token','logueado');
           this.cookieService.set('email', email);
+          // Notificar al servicio de autenticación que el usuario se logueó
+          this.authService.setLoggedIn(true);
           this.router.navigate(['/precios']);
         }else{
           this.loginForm.reset();
