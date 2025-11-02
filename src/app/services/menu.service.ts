@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Menu } from '@models/menu-model';
 import { Producto } from '@models/producto';
 import { Router } from '@angular/router';
-import { Subject, tap, switchMap } from 'rxjs';
+import { Subject, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,6 @@ import { Subject, tap, switchMap } from 'rxjs';
 export class MenuService {
 
   API_URL='https://losruedacarta-default-rtdb.firebaseio.com';
-  DBJSON='http://localhost:3000/menuProducts/';
 
   private datosSubject = new Subject<any>();
 
@@ -66,7 +65,6 @@ export class MenuService {
       }
 
       const url = `${this.API_URL}/products/${firebaseIndex}.json`;
-      console.log(`Actualizando producto ${product.id} en índice Firebase ${firebaseIndex}`);
 
       const response = await fetch(url, {
         method: 'PUT',
@@ -78,7 +76,6 @@ export class MenuService {
         throw new Error(`Error HTTP: ${response.status}`);
       }
 
-      console.log(`Producto ${product.id} actualizado exitosamente`);
       return await response.json();
     } catch(error){
       console.error('Error al actualizar producto:', error);
@@ -96,29 +93,14 @@ export class MenuService {
         method: 'DELETE',
         headers: { 'Content-type': 'application/json' },
       });
-      console.log(`Producto con ID ${productId} eliminado exitosamente.`);
     } catch (error) {
       console.error(`Error al eliminar el producto con ID ${productId}:`, error);
     }
   }
 
-
-  getMenuDbJson(){
-    return this.http.get<any>('http://localhost:3000/menuProducts');
-  }
-
-  getProductByIdDbJson(id:number){
-    return this.http.get(`${this.DBJSON}${id}`);
-  }
-
   createCategory(category: Omit<Menu, 'id'>) {
-    console.log('➕ Creando nueva categoría en Firebase:', category);
-
     // Obtener el siguiente ID disponible
     return this.consultMenu().pipe(
-      tap((categorias: any) => {
-        console.log('📋 Categorías existentes para calcular siguiente ID:', categorias);
-      }),
       switchMap((categorias: any) => {
         let categoriasArray: Menu[] = [];
 
@@ -142,10 +124,6 @@ export class MenuService {
           ? Math.max(...validCategories.map(cat => cat.id)) + 1
           : 1;
 
-        console.log('📊 Categorías válidas encontradas:', validCategories.length);
-        console.log('🔢 Siguiente ID calculado:', nextId);
-        console.log('📋 IDs existentes:', validCategories.map(cat => cat.id));
-
         // Crear la nueva categoría con el ID calculado
         const newCategory: Menu = {
           id: nextId,
@@ -156,9 +134,6 @@ export class MenuService {
         // Usar PUT con el índice numérico específico para mantener consistencia
         const firebaseIndex = nextId - 1; // ID 1 = índice 0, ID 2 = índice 1, etc.
         const url = `${this.API_URL}/categories/${firebaseIndex}.json`;
-        console.log('🌐 URL de creación (índice Firebase):', url);
-        console.log('🔑 Índice de Firebase calculado:', firebaseIndex);
-        console.log('📤 Datos que se enviarán:', JSON.stringify(newCategory, null, 2));
 
         return this.http.put(url, newCategory);
       })
@@ -166,14 +141,9 @@ export class MenuService {
   }
 
   updateCategory(category: Menu) {
-    console.log('🔄 Actualizando categoría en Firebase:', category);
-    console.log('🔢 ID de la categoría:', category.id, 'Tipo:', typeof category.id);
-
     // CORRECCIÓN: Usar la clave de Firebase (ID - 1) en lugar del ID del objeto
     const firebaseKey = category.id - 1; // ID 1 = clave 0, ID 2 = clave 1, etc.
     const url = `${this.API_URL}/categories/${firebaseKey}.json`;
-    console.log('🌐 URL de actualización (clave Firebase):', url);
-    console.log('🔑 Clave de Firebase calculada:', firebaseKey);
 
     // Crear el objeto con el ID correcto para mantener consistencia
     const categoryToUpdate = {
@@ -182,7 +152,6 @@ export class MenuService {
       productos: category.productos || []
     };
 
-    console.log('📤 Datos que se enviarán:', JSON.stringify(categoryToUpdate, null, 2));
     return this.http.put(url, categoryToUpdate);
   }
 
@@ -191,13 +160,11 @@ export class MenuService {
       // CORRECCIÓN: Usar la clave de Firebase (ID - 1) en lugar del ID del objeto
       const firebaseKey = categoryId - 1; // ID 1 = clave 0, ID 2 = clave 1, etc.
       const url = `${this.API_URL}/categories/${firebaseKey}.json`;
-      console.log(`🗑️ Eliminando categoría con ID ${categoryId} (clave Firebase: ${firebaseKey})`);
 
       await fetch(url, {
         method: 'DELETE',
         headers: { 'Content-type': 'application/json' },
       });
-      console.log(`Categoría con ID ${categoryId} eliminada exitosamente.`);
     } catch (error) {
       console.error(`Error al eliminar la categoría con ID ${categoryId}:`, error);
     }
@@ -222,7 +189,6 @@ export class MenuService {
 
       if (updatePromises.length > 0) {
         await Promise.all(updatePromises);
-        console.log(`Migrados ${updatePromises.length} productos con campo orden`);
       }
     } catch (error) {
       console.error('Error al migrar productos:', error);
@@ -230,13 +196,8 @@ export class MenuService {
   }
 
   createProduct(product: Omit<Producto, 'id'>) {
-    console.log('➕ Creando nuevo producto en Firebase:', product);
-
     // Obtener el siguiente ID disponible
     return this.getProducts().pipe(
-      tap((productos: any) => {
-        console.log('📋 Productos existentes para calcular siguiente ID:', productos);
-      }),
       switchMap((productos: any) => {
         let productosArray: Producto[] = [];
 
@@ -259,10 +220,6 @@ export class MenuService {
         const nextId = validProducts.length > 0
           ? Math.max(...validProducts.map(prod => prod.id)) + 1
           : 1;
-
-        console.log('📊 Productos válidos encontrados:', validProducts.length);
-        console.log('🔢 Siguiente ID calculado:', nextId);
-        console.log('📋 IDs existentes:', validProducts.map(prod => prod.id));
 
         // Calcular el siguiente orden
         const nextOrden = validProducts.length > 0
@@ -297,9 +254,6 @@ export class MenuService {
         }
 
         const url = `${this.API_URL}/products/${firebaseIndex}.json`;
-        console.log('🌐 URL de creación (índice Firebase):', url);
-        console.log('🔑 Índice de Firebase calculado:', firebaseIndex);
-        console.log('📤 Datos que se enviarán:', JSON.stringify(newProduct, null, 2));
 
         return this.http.put(url, newProduct);
       })

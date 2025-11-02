@@ -35,8 +35,6 @@ export class EditarCategoriasComponent implements OnInit {
     this.menuService.consultMenu()
       .subscribe({
         next: (categorias: any) =>{
-          console.log('📋 Categorías cargadas (raw):', categorias);
-
           // Firebase puede devolver un objeto con claves numéricas en lugar de un array
           if (Array.isArray(categorias)) {
             this.menuCategories = categorias;
@@ -48,18 +46,14 @@ export class EditarCategoriasComponent implements OnInit {
                 ...categoria,
                 id: parseInt(key) // Usar la clave como ID y convertir a número
               };
-              console.log(`🔍 Categoría procesada: ID=${categoriaConId.id} (${typeof categoriaConId.id}), Título=${categoriaConId.title}`);
               return categoriaConId;
             });
           } else {
             this.menuCategories = [];
           }
-
-          console.log('📋 Categorías procesadas para la tabla:', this.menuCategories);
-          console.log('📊 Número de categorías:', this.menuCategories.length);
         },
         error: (error) => {
-          console.error('❌ Error al cargar categorías:', error);
+          // Error al cargar categorías
         }
       });
   }
@@ -73,34 +67,12 @@ export class EditarCategoriasComponent implements OnInit {
   }
 
   navigateToCreate() {
-    console.log('🔄 Navegando a crear categoría');
     this.router.navigate(['/crearcategoria']);
   }
 
   navigateToEdit(categoriaId: number | undefined) {
-    console.log('🔄 CLICK EN BOTÓN EDITAR');
-    console.log('📊 ID recibido:', categoriaId);
-    console.log('📊 Tipo de ID:', typeof categoriaId);
-    console.log('📊 Es válido:', !!categoriaId);
-
     if (categoriaId) {
-      console.log('✅ ID válido, navegando a editar categoría con ID:', categoriaId);
-      console.log('🔄 Ruta de destino: /editarcategoria/' + categoriaId);
-
-      // Verificar el estado actual del router
-      console.log('📍 URL actual:', this.router.url);
-
-      this.router.navigate(['/editarcategoria', categoriaId]).then(
-        (success) => {
-          console.log('✅ Navegación exitosa:', success);
-          console.log('📍 Nueva URL:', this.router.url);
-        },
-        (error) => {
-          console.error('❌ Error en navegación:', error);
-        }
-      );
-    } else {
-      console.error('❌ ID de categoría no válido:', categoriaId);
+      this.router.navigate(['/editarcategoria', categoriaId]);
     }
   }
 

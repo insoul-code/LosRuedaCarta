@@ -45,12 +45,10 @@ export class CartaComponent {
           title: categories[key as any].title,
           productos: []
         }));
-      console.log('Categorias procesadas:', this.categories);
 
       // Filtrar productos nulos o inválidos
       this.products = products.filter((product: any) => product && product.id);
       this.groupProductsByCategory();
-      console.log('Grouped Products:', this.groupedProducts);
     });
   }
 

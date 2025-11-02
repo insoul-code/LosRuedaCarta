@@ -12,7 +12,7 @@ import { Observable, from, BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   API_URL='https://losruedacarta-default-rtdb.firebaseio.com/users.json';
-  DBJSON='http://localhost:3000/users';
+
 
   // Observable para el estado de autenticación
   private authStatusSubject = new BehaviorSubject<boolean>(false);
@@ -35,11 +35,6 @@ export class AuthService {
   login(email: string, password: string): Observable<User>{
     const params = new HttpParams().set('email',email).set('password',password);
     return this.http.get<User>(`${this.API_URL}`,{params});
-  }
-
-  loginDbJson(email: string, password: string): Observable<User>{
-    const params = new HttpParams().set('email',email).set('password',password);
-    return this.http.get<User>(`${this.DBJSON}`,{params});
   }
 
   logout(){

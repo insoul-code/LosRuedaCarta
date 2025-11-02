@@ -43,8 +43,6 @@ export class EditPageComponent {
     categoryId: 0
   };
 
-  productByIdDbJson: any[]=[];
-
   constructor(
     private formBuilder: FormBuilder,
     private menuService: MenuService,
@@ -102,8 +100,6 @@ export class EditPageComponent {
           categoryId: categoryId,
         })
         this.productId = data.id;
-        console.log('Producto cargado:', this.productById);
-        console.log('CategoryId procesado:', categoryId);
       }
     });
   }
@@ -123,7 +119,6 @@ export class EditPageComponent {
       this.alertService.showAlert("El producto se ha actualizado exitosamente", 3000);
       this.router.navigate(['/precios']);
     }).catch(error => {
-      console.error('Error al actualizar el producto:', error);
       this.alertService.showAlert("Error al actualizar el producto", 3000);
     });
   }
@@ -148,7 +143,7 @@ export class EditPageComponent {
             this.router.navigate(['/precios']);
           })
           .catch(error => {
-            console.error("Error al eliminar el producto:", error);
+            // Error al eliminar el producto
           });
       }
     });
@@ -178,7 +173,6 @@ export class EditPageComponent {
               id: parseInt(menu[key as any].id.toString()),
               title: menu[key as any].title
             }));
-          console.log('Categorías cargadas en edit-page:', this.categories);
         }
       });
   }
@@ -191,26 +185,14 @@ export class EditPageComponent {
       descripcion: [''], // Descripción opcional
       categoryId: ['', [Validators.required]]
     });
-    console.log('Formulario inicializado para creación');
   }
 
   createProduct() {
-    console.log('Formulario válido:', this.formulario.valid);
-    console.log('Errores del formulario:', this.formulario.errors);
-    console.log('Valores del formulario:', this.formulario.value);
 
     // Marcar todos los campos como tocados para mostrar errores
     this.formulario.markAllAsTouched();
 
     if (this.formulario.invalid) {
-      console.log('Formulario inválido, no se puede crear el producto');
-      console.log('Errores por campo:');
-      Object.keys(this.formulario.controls).forEach(key => {
-        const control = this.formulario.get(key);
-        if (control && control.errors) {
-          console.log(`${key}:`, control.errors);
-        }
-      });
       this.alertService.showAlert("Por favor, complete todos los campos requeridos", 3000);
       return;
     }
@@ -222,16 +204,13 @@ export class EditPageComponent {
       categoryId: this.formulario.controls['categoryId'].value,
     };
 
-    console.log('Datos del producto a crear:', productData);
 
     this.menuService.createProduct(productData).subscribe({
       next: (response) => {
-        console.log('Producto creado exitosamente:', response);
         this.alertService.showAlert("El producto se ha creado exitosamente", 3000);
         this.router.navigate(['/precios']);
       },
       error: (error) => {
-        console.error('Error al crear el producto:', error);
         this.alertService.showAlert("Error al crear el producto", 3000);
       }
     });

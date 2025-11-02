@@ -35,7 +35,6 @@ export class EditarPreciosComponent {
     this.getProducts();
     this.getCategories();
     this.getEmailUser();
-    this.getProductDbJson();
     this.migrateProductsIfNeeded();
   }
 
@@ -53,18 +52,6 @@ export class EditarPreciosComponent {
           }
           return a.id - b.id;
         });
-        console.log('Productos cargados y ordenados:', this.products);
-        console.log('Productos originales:', products);
-        console.log('Productos válidos filtrados:', validProducts);
-      }
-    })
-  }
-
-  getProductDbJson(){
-    this.menuService.getMenuDbJson()
-    .subscribe({
-      next: (menuResponse)=>{
-        this.menuProducts = menuResponse;
       }
     })
   }
@@ -80,7 +67,6 @@ export class EditarPreciosComponent {
               id: parseInt(menu[key as any].id.toString()),
               title: menu[key as any].title
             }));
-          console.log('Categorías procesadas:', this.menuCategories);
         }
       });
   }
@@ -106,8 +92,6 @@ export class EditarPreciosComponent {
   }
 
   onDrop(event: CdkDragDrop<Producto[]>) {
-    console.log('Drop event:', event);
-
     // Mover el elemento en el array local
     moveItemInArray(this.products, event.previousIndex, event.currentIndex);
 
@@ -116,15 +100,11 @@ export class EditarPreciosComponent {
       product.orden = index + 1;
     });
 
-    console.log('Productos reordenados:', this.products);
-
     // Actualizar el orden en Firebase
     this.updateProductOrder();
   }
 
   updateProductOrder() {
-    console.log('Actualizando orden de productos en Firebase...');
-
     // Actualizar cada producto con su nuevo orden
     const updatePromises = this.products.map((product, index) => {
       const updatedProduct = { ...product, orden: index + 1 };
@@ -134,13 +114,11 @@ export class EditarPreciosComponent {
     // Ejecutar todas las actualizaciones
     Promise.all(updatePromises)
       .then(() => {
-        console.log('Orden actualizado exitosamente en Firebase');
         this.alertService?.showAlert('Orden de productos actualizado', 2000);
         // Recargar productos para reflejar los cambios
         this.getProducts();
       })
       .catch(error => {
-        console.error('Error al actualizar el orden:', error);
         this.alertService?.showAlert('Error al actualizar el orden', 3000);
       });
   }
@@ -148,12 +126,11 @@ export class EditarPreciosComponent {
   migrateProductsIfNeeded() {
     this.menuService.migrateProductsWithOrder()
       .then(() => {
-        console.log('Migración de productos completada');
         // Recargar productos después de la migración
         this.getProducts();
       })
       .catch(error => {
-        console.error('Error en migración de productos:', error);
+        // Error en migración de productos
       });
   }
 
